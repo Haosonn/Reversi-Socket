@@ -2,7 +2,6 @@ package view;
 
 
 import controller.GameController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -40,6 +39,11 @@ public class GameFrame extends JFrame {
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
+            controller.resetCurrentPlayer();
+            chessBoardPanel.clear();
+            chessBoardPanel.initialChessGrids();
+            chessBoardPanel.initialGame();
+            repaint();
             System.out.println("click restart Btn");
         });
 

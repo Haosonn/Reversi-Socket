@@ -32,7 +32,6 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-
     public void countScore() {
         //todo: modify the countScore method
         if (currentPlayer == ChessPiece.BLACK) {
@@ -41,7 +40,15 @@ public class GameController {
             whiteScore++;
         }
     }
-
+    public void changeScore(int score){
+        if (currentPlayer == ChessPiece.BLACK) {
+            blackScore += score;
+            whiteScore -= score;
+        } else {
+            whiteScore += score;
+            blackScore -= score;
+        }
+    }
 
     public ChessPiece getCurrentPlayer() {
         return currentPlayer;
@@ -56,7 +63,12 @@ public class GameController {
         this.gamePanel = gamePanel;
     }
 
-
+    public void resetCurrentPlayer(){
+        this.currentPlayer = ChessPiece.BLACK;
+        blackScore = whiteScore = 2;
+        statusPanel.setScoreText(2,2);
+        statusPanel.setPlayerText(currentPlayer.name());
+    }
     public void readFileData(String fileName) {
         //todo: read date from file
         List<String> fileData = new ArrayList<>();
@@ -78,6 +90,11 @@ public class GameController {
     }
 
     public boolean canClick(int row, int col) {
-        return gamePanel.canClickGrid(row, col, currentPlayer);
+        int cnt =  gamePanel.canClickGrid(row, col, currentPlayer);
+        if(cnt==0) return false;
+        else{
+            this.changeScore(cnt);
+            return true;
+        }
     }
 }
