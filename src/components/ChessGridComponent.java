@@ -6,7 +6,7 @@ import view.GameFrame;
 
 import java.awt.*;
 
-public class ChessGridComponent extends BasicComponent {
+public class  ChessGridComponent extends BasicComponent {
     public static int chessSize;
     public static int gridSize;
     public static Color gridColor = new Color(255, 150, 50);
