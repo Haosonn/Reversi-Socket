@@ -10,7 +10,7 @@ public class ChessBoardPanel extends JPanel
 {
     private final int CHESS_COUNT = 8;
     private ChessGridComponent[][] chessGrids;
-
+    private boolean hasMove;
     public ChessBoardPanel(int width, int height)
     {
         this.setVisible(true);
@@ -26,7 +26,7 @@ public class ChessBoardPanel extends JPanel
 
         initialChessGrids();//return empty chessboard
         initialGame();//add initial four chess
-
+        findAllMoves(ChessPiece.BLACK);
         repaint();
     }
 
@@ -61,6 +61,7 @@ public class ChessBoardPanel extends JPanel
         chessGrids[3][4].setChessPiece(ChessPiece.WHITE);
         chessGrids[4][3].setChessPiece(ChessPiece.WHITE);
         chessGrids[4][4].setChessPiece(ChessPiece.BLACK);
+
     }
 
     public void clear()
@@ -74,6 +75,14 @@ public class ChessBoardPanel extends JPanel
         }
     }
 
+    public void clearReminders()
+    {
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                chessGrids[i][j].setReminder(false);
+            }
+        }
+    }
     @Override
     protected void paintComponent(Graphics g)
     {
@@ -117,10 +126,31 @@ public class ChessBoardPanel extends JPanel
         return cnt;
 
     }
+    public boolean findAllMoves(ChessPiece currentPlayer){
+        int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+        this.hasMove = false;
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                for (int k = 0; k <= 7; k++) {
+                    if(checkDirection(i, j, currentPlayer, direction[k][0], direction[k][1]) && chessGrids[i][j].getChessPiece() == null) {
+                        chessGrids[i][j].setReminder(true);
+                        this.hasMove = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return this.hasMove;
+    }
     public int canClickGrid(int row, int col, ChessPiece currentPlayer)
     {
-        //System.out.printf(chessGrids[row][col].getChessPiece().getColor().toString());
+        if (!this.hasMove) return -1;
         if (chessGrids[row][col].getChessPiece() != null) return 0;
+
+
+        if (!chessGrids[row][col].getReminder()) return 0;
+
+
         int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         int[] correctDir = new int[9];
         int reverseCnt = 0;
@@ -131,10 +161,14 @@ public class ChessBoardPanel extends JPanel
         }
         if (correctDir[0] > 0)
         {
+
+            clearReminders();
             for (int i = 1; i <= correctDir[0]; i++)
             {
                 reverseCnt += reverse(row, col, currentPlayer, direction[correctDir[i]][0], direction[correctDir[i]][1]);
             }
+
+            findAllMoves((currentPlayer == ChessPiece.BLACK)? ChessPiece.WHITE : ChessPiece.BLACK);
             repaint();
             return reverseCnt;
         }

@@ -37,5 +37,7 @@ public class StatusPanel extends JPanel {
     public void setPlayerText(String playerText) {
         this.playerLabel.setText(playerText + "'s turn");
     }
-    
+    public void setGameResult(String text) {
+        this.playerLabel.setText(text);
+    }
 }

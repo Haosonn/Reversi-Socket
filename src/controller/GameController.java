@@ -3,6 +3,7 @@ package controller;
 import model.ChessPiece;
 import view.*;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +27,17 @@ public class GameController {
     }
 
     public void swapPlayer() {
-        countScore();
         currentPlayer = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-    public void countScore() {
+    public void addScore(int score) {
         //todo: modify the countScore method
         if (currentPlayer == ChessPiece.BLACK) {
-            blackScore++;
+            blackScore += score;
         } else {
-            whiteScore++;
+            whiteScore += score;
         }
     }
     public void changeScore(int score){
@@ -88,13 +88,31 @@ public class GameController {
     public void writeDataToFile(String fileName) {
         //todo: write data into file
     }
-
+    public boolean canClick(){
+        return gamePanel.findAllMoves(currentPlayer);
+    }
     public boolean canClick(int row, int col) {
         int cnt =  gamePanel.canClickGrid(row, col, currentPlayer);
-        if(cnt==0) return false;
+
+        if (cnt == 0) {
+            return false;
+        }
         else{
             this.changeScore(cnt);
             return true;
+        }
+    }
+
+    public void endGame() {
+        JFrame endFrame = new JFrame();
+        if (this.blackScore > this.whiteScore) {
+            statusPanel.setGameResult("BLACK WIN");
+        } else {
+            if (this.whiteScore > this.blackScore) {
+                statusPanel.setGameResult("WHITE WIN");
+            } else {
+                statusPanel.setGameResult("DRAW");
+            }
         }
     }
 }

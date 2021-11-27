@@ -14,7 +14,7 @@ public class  ChessGridComponent extends BasicComponent {
     private ChessPiece chessPiece;
     private int row;
     private int col;
-
+    private boolean reminder;
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
 
@@ -28,12 +28,22 @@ public class  ChessGridComponent extends BasicComponent {
         //todo: complete mouse click method
         if (GameFrame.controller.canClick(row, col)) {
             if (this.chessPiece == null) {
+                this.reminder = false;
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
+                GameFrame.controller.addScore(1);
                 GameFrame.controller.swapPlayer();
+                if (!GameFrame.controller.canClick()) {
+                    GameFrame.controller.swapPlayer();
+                    if(!GameFrame.controller.canClick()) {
+                        GameFrame.controller.endGame();
+                    }
+                }
             }
             repaint();
         }
     }
+
+
 
 
     public ChessPiece getChessPiece() {
@@ -59,6 +69,10 @@ public class  ChessGridComponent extends BasicComponent {
             g.setColor(chessPiece.getColor());
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
         }
+        if (this.reminder) {
+            g.setColor(Color.GRAY);
+            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+        }
     }
 
 
@@ -68,5 +82,11 @@ public class  ChessGridComponent extends BasicComponent {
         drawPiece(g);
     }
 
+    public void setReminder(boolean status){
+        this.reminder = status;
+    }
 
+    public boolean getReminder(){
+        return this.reminder;
+    }
 }

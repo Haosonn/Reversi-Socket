@@ -2,6 +2,8 @@ package view;
 
 
 import controller.GameController;
+import model.ChessPiece;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,6 +45,8 @@ public class GameFrame extends JFrame {
             chessBoardPanel.clear();
             chessBoardPanel.initialChessGrids();
             chessBoardPanel.initialGame();
+            chessBoardPanel.clearReminders();
+            chessBoardPanel.findAllMoves(ChessPiece.BLACK);
             repaint();
             System.out.println("click restart Btn");
         });
