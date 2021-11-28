@@ -47,6 +47,7 @@ public class GameFrame extends JFrame {
             chessBoardPanel.initialGame();
             chessBoardPanel.clearReminders();
             chessBoardPanel.findAllMoves(ChessPiece.BLACK);
+            controller.resetCurrentPlayer();
             repaint();
             System.out.println("click restart Btn");
         });
