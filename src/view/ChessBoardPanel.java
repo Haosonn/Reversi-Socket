@@ -144,7 +144,6 @@ public class ChessBoardPanel extends JPanel
     }
     public int canClickGrid(int row, int col, ChessPiece currentPlayer)
     {
-        if (!this.hasMove) return -1;
         if (chessGrids[row][col].getChessPiece() != null) return 0;
 
 
@@ -168,11 +167,23 @@ public class ChessBoardPanel extends JPanel
                 reverseCnt += reverse(row, col, currentPlayer, direction[correctDir[i]][0], direction[correctDir[i]][1]);
             }
 
-            findAllMoves((currentPlayer == ChessPiece.BLACK)? ChessPiece.WHITE : ChessPiece.BLACK);
+            //findAllMoves((currentPlayer == ChessPiece.BLACK)? ChessPiece.WHITE : ChessPiece.BLACK);
             repaint();
             return reverseCnt;
         }
         return reverseCnt;
     }
 
+    public ChessPiece[][] getChessBoard(){
+        ChessPiece[][] chessBoard = new ChessPiece[8][8];
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                chessBoard[i][j] = this.chessGrids[i][j].getChessPiece();
+            }
+        }
+        return chessBoard;
+    }
+    public ChessGridComponent getChessGrids(int row, int col){
+        return this.chessGrids[row][col];
+    }
 }
