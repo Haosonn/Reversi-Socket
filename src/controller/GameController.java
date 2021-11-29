@@ -2,6 +2,7 @@ package controller;
 
 import model.ChessPiece;
 import view.*;
+import game.GameRecord;
 
 import javax.swing.*;
 import java.io.*;
@@ -15,6 +16,7 @@ public class GameController {
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
     private ChessPiece currentPlayer;
+    private GameRecord gameRecord = new GameRecord();
     private int blackScore;
     private int whiteScore;
 
@@ -72,6 +74,7 @@ public class GameController {
     public void readFileData(String fileName) {
         //todo: read date from file
         List<String> fileData = new ArrayList<>();
+        GameRecord gameRecord = new GameRecord();
         try {
             FileReader fileReader = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -79,21 +82,46 @@ public class GameController {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
+
+            gameRecord.copyToGame(this.gamePanel, this, fileData);
+            statusPanel.setScoreText(this.blackScore,this.whiteScore);
+            statusPanel.setPlayerText(currentPlayer.name());
+            gamePanel.findAllMoves(currentPlayer);
+
             fileData.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeDataToFile(String fileName) {
+    public void writeDataToFile(String filePath) {
         //todo: write data into file
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+                    gameRecord.setChessboard(gamePanel.getChessBoard());
+                    gameRecord.setBlackCnt(blackScore);
+                    gameRecord.setWhiteCnt(whiteScore);
+                    gameRecord.setCurrentPlayer(currentPlayer);
+
+
+            List<String> lines = gameRecord.toStringList();
+            for (String line : lines
+            ) {
+                writer.write(line);
+            }
+            writer.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public boolean canClick(){
         return gamePanel.findAllMoves(currentPlayer);
     }
     public boolean canClick(int row, int col) {
         int cnt =  gamePanel.canClickGrid(row, col, currentPlayer);
-
         if (cnt == 0) {
             return false;
         }
@@ -114,5 +142,17 @@ public class GameController {
                 statusPanel.setGameResult("DRAW");
             }
         }
+    }
+
+    public void setBlackScore(int blackScore) {
+        this.blackScore = blackScore;
+    }
+
+    public void setWhiteScore(int whiteScore) {
+        this.whiteScore = whiteScore;
+    }
+
+    public void setCurrentPlayer(ChessPiece currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

@@ -41,12 +41,13 @@ public class GameFrame extends JFrame {
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
-            controller.resetCurrentPlayer();
+            controller.setCurrentPlayer(ChessPiece.BLACK);
             chessBoardPanel.clear();
             chessBoardPanel.initialChessGrids();
             chessBoardPanel.initialGame();
             chessBoardPanel.clearReminders();
             chessBoardPanel.findAllMoves(ChessPiece.BLACK);
+            controller.resetCurrentPlayer();
             repaint();
             System.out.println("click restart Btn");
         });
@@ -58,7 +59,12 @@ public class GameFrame extends JFrame {
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
+            if(filePath.length()==0) return;
+            chessBoardPanel.clear();
+            chessBoardPanel.initialChessGrids();
+            chessBoardPanel.clearReminders();
             controller.readFileData(filePath);
+            repaint();
         });
 
         JButton saveGameBtn = new JButton("Save");
