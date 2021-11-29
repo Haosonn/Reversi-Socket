@@ -1,12 +1,14 @@
 package components;
 
 import controller.GameController;
+import game.GameRecord;
 import model.*;
 import view.GameFrame;
 
 import java.awt.*;
+import java.util.Arrays;
 
-public class  ChessGridComponent extends BasicComponent {
+public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
     public static int gridSize;
     public static Color gridColor = new Color(255, 150, 50);
@@ -15,6 +17,7 @@ public class  ChessGridComponent extends BasicComponent {
     private int row;
     private int col;
     private boolean reminder;
+
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
 
@@ -26,15 +29,20 @@ public class  ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
-        if (GameFrame.controller.canClick(row, col)) {
+        if (GameFrame.controller.canClick(row, col)||GameFrame.controller.isCheatingBtnOn()) {
             if (this.chessPiece == null) {
                 this.reminder = false;
+                int[] step = {row, col};
+                GameFrame.controller.getGameRecord().getStep().add(step);
+                for (int i = 0; i < GameFrame.controller.getGameRecord().getStep().size(); i++) {
+                    System.out.println(Arrays.toString(GameFrame.controller.getGameRecord().getStep().get(i)));
+                }
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
                 GameFrame.controller.addScore(1);
                 GameFrame.controller.swapPlayer();
                 if (!GameFrame.controller.canClick()) {
                     GameFrame.controller.swapPlayer();
-                    if(!GameFrame.controller.canClick()) {
+                    if (!GameFrame.controller.canClick()) {
                         GameFrame.controller.endGame();
                     }
                 }
@@ -42,8 +50,6 @@ public class  ChessGridComponent extends BasicComponent {
             repaint();
         }
     }
-
-
 
 
     public ChessPiece getChessPiece() {
@@ -82,11 +88,11 @@ public class  ChessGridComponent extends BasicComponent {
         drawPiece(g);
     }
 
-    public void setReminder(boolean status){
+    public void setReminder(boolean status) {
         this.reminder = status;
     }
 
-    public boolean getReminder(){
+    public boolean getReminder() {
         return this.reminder;
     }
 }
