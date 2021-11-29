@@ -36,33 +36,35 @@ public class GameRecord {
         String finalString = "";
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
-                if (chessboard[i][j] == null) finalString += " 0";
-                if (chessboard[i][j] == ChessPiece.BLACK) finalString += " 1";
-                if (chessboard[i][j] == ChessPiece.WHITE) finalString += " -1";
+                if (chessboard[i][j] == null) finalString += "0 ";
+                if (chessboard[i][j] == ChessPiece.BLACK) finalString += "1 ";
+                if (chessboard[i][j] == ChessPiece.WHITE) finalString += "-1 ";
             }
             finalString += '\n';
         }
 
-        if (currentPlayer == ChessPiece.BLACK) finalString += " 1";
-        if (currentPlayer == ChessPiece.WHITE) finalString += " -1";
+        if (currentPlayer == ChessPiece.BLACK) finalString += "1 ";
+        if (currentPlayer == ChessPiece.WHITE) finalString += "-1 ";
 
-        finalString += String.format(" %d %d", blackCnt, whiteCnt);
+        finalString += String.format("%d %d", blackCnt, whiteCnt);
         return finalString;
     }
+
 
     public List<String> toStringList() {
         List<String> lines = new ArrayList<>();
         String line = new String();
+
         for (int i = 0; i <= 7; i++) {
-            line = "";
+//            line = "";
             for (int j = 0; j <= 7; j++) {
                 if (chessboard[i][j] == null) line += "0 ";
                 if (chessboard[i][j] == ChessPiece.BLACK) line += "1 ";
                 if (chessboard[i][j] == ChessPiece.WHITE) line += "-1 ";
             }
-            lines.add(line);
+//            lines.add(line);
         }
-        line = "";
+//        line = "";
         if (currentPlayer == ChessPiece.BLACK) line += "1 ";
         if (currentPlayer == ChessPiece.WHITE) line += "-1 ";
         line += String.format("%d %d", blackCnt, whiteCnt);
@@ -84,13 +86,19 @@ public class GameRecord {
                     this.chessboard[i][j] = null;
                     continue;
                 }
-                this.chessboard[i][j] = chessboard[i][j];
+                if(chessboard[i][j] == ChessPiece.BLACK)
+                this.chessboard[i][j] = ChessPiece.BLACK;
+                if(chessboard[i][j] == ChessPiece.WHITE)
+                    this.chessboard[i][j] = ChessPiece.WHITE;
             }
         }
     }
 
     public void setCurrentPlayer(ChessPiece currentPlayer) {
-        this.currentPlayer = currentPlayer;
+        if(currentPlayer == ChessPiece.BLACK)
+            this.currentPlayer = ChessPiece.BLACK;
+        else
+            this.currentPlayer = ChessPiece.WHITE;
     }
 
     public void setBlackCnt(int blackCnt) {

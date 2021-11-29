@@ -35,10 +35,10 @@ public class GameFrame extends JFrame {
 
         this.add(chessBoardPanel);
         this.add(statusPanel);
-
+        controller.addToHistory();
 
         JButton restartBtn = new JButton("Restart");
-        restartBtn.setSize(104, 50);
+        restartBtn.setSize(90, 50);
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
@@ -47,12 +47,11 @@ public class GameFrame extends JFrame {
         });
 
         JButton loadGameBtn = new JButton("Load");
-        loadGameBtn.setSize(104, 50);
-        loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        loadGameBtn.setSize(90, 50);
+        loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 28, restartBtn.getY());
         add(loadGameBtn);
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
-            restart();
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             if(filePath.length()==0) return;
             chessBoardPanel.clear();
@@ -63,8 +62,8 @@ public class GameFrame extends JFrame {
         });
 
         JButton saveGameBtn = new JButton("Save");
-        saveGameBtn.setSize(104, 50);
-        saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        saveGameBtn.setSize(90, 50);
+        saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 28, restartBtn.getY());
         add(saveGameBtn);
         saveGameBtn.addActionListener(e -> {
             System.out.println("clicked Save Btn");
@@ -72,9 +71,19 @@ public class GameFrame extends JFrame {
             controller.writeDataToFile(filePath);
         });
 
+        JButton undoBtn = new JButton("Undo");
+        undoBtn.setSize(90, 50);
+        undoBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 28, restartBtn.getY());
+        add(undoBtn);
+        undoBtn.addActionListener(e -> {
+            System.out.println("clicked Undo Btn");
+            controller.undo();
+            repaint();
+        });
+
         JToggleButton cheatingBtn = new JToggleButton("cheating");
-        cheatingBtn.setSize(104, 50);
-        cheatingBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        cheatingBtn.setSize(90, 50);
+        cheatingBtn.setLocation(undoBtn.getX() + restartBtn.getWidth() + 28, restartBtn.getY());
         add(cheatingBtn);
         cheatingBtn.addActionListener(e -> {
             System.out.println("clicked Cheat Btn");
@@ -94,6 +103,7 @@ public class GameFrame extends JFrame {
         this.chessBoardPanel.clearReminders();
         this.chessBoardPanel.findAllMoves(ChessPiece.BLACK);
         this.controller.resetCurrentPlayer();
+        this.controller.addToHistory();
         repaint();
     }
 }

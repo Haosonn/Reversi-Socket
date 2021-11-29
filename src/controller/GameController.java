@@ -16,10 +16,12 @@ public class GameController {
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
     private ChessPiece currentPlayer;
-    private GameRecord gameRecord = new GameRecord();
+
     private int blackScore;
     private int whiteScore;
     private boolean cheatingBtnOn = false;
+
+    private ArrayList<GameRecord> gameHistory = new ArrayList();
 
     public boolean isCheatingBtnOn() {
         return cheatingBtnOn;
@@ -29,8 +31,9 @@ public class GameController {
         this.cheatingBtnOn = cheatingBtnOn;
     }
 
-    public GameRecord getGameRecord() {
-        return gameRecord;
+    public GameRecord getThisStep()
+    {
+        return gameHistory.get(gameHistory.size()-1);
     }
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
@@ -120,13 +123,8 @@ public class GameController {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter writer = new BufferedWriter(fileWriter);
-
-            gameRecord.setChessboard(gamePanel.getChessBoard());
-            gameRecord.setBlackCnt(blackScore);
-            gameRecord.setWhiteCnt(whiteScore);
-            gameRecord.setCurrentPlayer(currentPlayer);
-
-
+            GameRecord gameRecord = new GameRecord();
+            setThisStep(gameRecord);
             List<String> lines = gameRecord.toStringList();
             for (String line : lines
             ) {
@@ -166,6 +164,20 @@ public class GameController {
         }
     }
 
+    public void setThisStep (GameRecord gameRecord){
+        gameRecord.setChessboard(gamePanel.getChessBoard());
+        gameRecord.setBlackCnt(blackScore);
+        gameRecord.setWhiteCnt(whiteScore);
+        gameRecord.setCurrentPlayer(currentPlayer);
+    }
+
+    public void addToHistory(){
+        GameRecord thisStep = new GameRecord();
+        setThisStep(thisStep);
+        gameHistory.add(thisStep);
+    }
+
+
     public void setBlackScore(int blackScore) {
         this.blackScore = blackScore;
     }
@@ -176,6 +188,18 @@ public class GameController {
 
     public void setCurrentPlayer(ChessPiece currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public void undo(){
+        GameRecord gameRecord = new GameRecord();
+        if(gameHistory.size() == 1) return;
+        gameHistory.remove(gameHistory.size()-1);
+        List<String> previousMove = gameHistory.get(gameHistory.size()-1).toStringList();
+        gameRecord.copyToGame(this.gamePanel, this, previousMove);
+        statusPanel.setScoreText(this.blackScore, this.whiteScore);
+        statusPanel.setPlayerText(currentPlayer.name());
+        gamePanel.findAllMoves(currentPlayer);
+
     }
 
 //    public void loadToGame(List<String> fileData) {

@@ -1,10 +1,12 @@
 package view;
 
 import components.ChessGridComponent;
+import game.GameRecord;
 import model.ChessPiece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ChessBoardPanel extends JPanel
 {
@@ -14,6 +16,7 @@ public class ChessBoardPanel extends JPanel
     public ChessGridComponent getChessGrids(int i, int j) {
         return chessGrids[i][j];
     }
+
 
     public ChessBoardPanel(int width, int height)
     {
@@ -190,5 +193,6 @@ public class ChessBoardPanel extends JPanel
         }
         return chessBoard;
     }
+
 
 }
