@@ -11,6 +11,10 @@ public class ChessBoardPanel extends JPanel
     private final int CHESS_COUNT = 8;
     private ChessGridComponent[][] chessGrids;
     private boolean hasMove;
+    public ChessGridComponent getChessGrids(int i, int j) {
+        return chessGrids[i][j];
+    }
+
     public ChessBoardPanel(int width, int height)
     {
         this.setVisible(true);
@@ -127,6 +131,7 @@ public class ChessBoardPanel extends JPanel
 
     }
     public boolean findAllMoves(ChessPiece currentPlayer){
+        clearReminders();
         int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         this.hasMove = false;
         for (int i = 0; i <= 7; i++) {
@@ -140,6 +145,7 @@ public class ChessBoardPanel extends JPanel
                 }
             }
         }
+        repaint();
         return this.hasMove;
     }
     public int canClickGrid(int row, int col, ChessPiece currentPlayer)
@@ -174,6 +180,7 @@ public class ChessBoardPanel extends JPanel
         return reverseCnt;
     }
 
+
     public ChessPiece[][] getChessBoard(){
         ChessPiece[][] chessBoard = new ChessPiece[8][8];
         for (int i = 0; i <= 7; i++) {
@@ -183,7 +190,5 @@ public class ChessBoardPanel extends JPanel
         }
         return chessBoard;
     }
-    public ChessGridComponent getChessGrids(int row, int col){
-        return this.chessGrids[row][col];
-    }
+
 }

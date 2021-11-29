@@ -12,6 +12,7 @@ public class GameFrame extends JFrame {
     private ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
 
+
     public GameFrame(int frameSize) {
 
         this.setTitle("2021F CS102A Project Reversi");
@@ -37,27 +38,21 @@ public class GameFrame extends JFrame {
 
 
         JButton restartBtn = new JButton("Restart");
-        restartBtn.setSize(120, 50);
+        restartBtn.setSize(104, 50);
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
-            controller.setCurrentPlayer(ChessPiece.BLACK);
-            chessBoardPanel.clear();
-            chessBoardPanel.initialChessGrids();
-            chessBoardPanel.initialGame();
-            chessBoardPanel.clearReminders();
-            chessBoardPanel.findAllMoves(ChessPiece.BLACK);
-            controller.resetCurrentPlayer();
-            repaint();
+            restart();
             System.out.println("click restart Btn");
         });
 
         JButton loadGameBtn = new JButton("Load");
-        loadGameBtn.setSize(120, 50);
-        loadGameBtn.setLocation(restartBtn.getX()+restartBtn.getWidth()+30, restartBtn.getY());
+        loadGameBtn.setSize(104, 50);
+        loadGameBtn.setLocation(restartBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
         add(loadGameBtn);
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
+            restart();
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             if(filePath.length()==0) return;
             chessBoardPanel.clear();
@@ -68,8 +63,8 @@ public class GameFrame extends JFrame {
         });
 
         JButton saveGameBtn = new JButton("Save");
-        saveGameBtn.setSize(120, 50);
-        saveGameBtn.setLocation(loadGameBtn.getX()+restartBtn.getWidth()+30, restartBtn.getY());
+        saveGameBtn.setSize(104, 50);
+        saveGameBtn.setLocation(loadGameBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
         add(saveGameBtn);
         saveGameBtn.addActionListener(e -> {
             System.out.println("clicked Save Btn");
@@ -77,9 +72,28 @@ public class GameFrame extends JFrame {
             controller.writeDataToFile(filePath);
         });
 
+        JToggleButton cheatingBtn = new JToggleButton("cheating");
+        cheatingBtn.setSize(104, 50);
+        cheatingBtn.setLocation(saveGameBtn.getX() + restartBtn.getWidth() + 30, restartBtn.getY());
+        add(cheatingBtn);
+        cheatingBtn.addActionListener(e -> {
+            System.out.println("clicked Cheat Btn");
+            controller.setCheatingBtnOn(!controller.isCheatingBtnOn());
+        });
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+    }
+
+    private void restart() {
+        this.controller.setCurrentPlayer(ChessPiece.BLACK);
+        this.chessBoardPanel.clear();
+        this.chessBoardPanel.initialChessGrids();
+        this.chessBoardPanel.initialGame();
+        this.chessBoardPanel.clearReminders();
+        this.chessBoardPanel.findAllMoves(ChessPiece.BLACK);
+        this.controller.resetCurrentPlayer();
+        repaint();
     }
 }

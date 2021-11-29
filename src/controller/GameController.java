@@ -19,6 +19,19 @@ public class GameController {
     private GameRecord gameRecord = new GameRecord();
     private int blackScore;
     private int whiteScore;
+    private boolean cheatingBtnOn = false;
+
+    public boolean isCheatingBtnOn() {
+        return cheatingBtnOn;
+    }
+
+    public void setCheatingBtnOn(boolean cheatingBtnOn) {
+        this.cheatingBtnOn = cheatingBtnOn;
+    }
+
+    public GameRecord getGameRecord() {
+        return gameRecord;
+    }
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
@@ -42,7 +55,8 @@ public class GameController {
             whiteScore += score;
         }
     }
-    public void changeScore(int score){
+
+    public void changeScore(int score) {
         if (currentPlayer == ChessPiece.BLACK) {
             blackScore += score;
             whiteScore -= score;
@@ -65,12 +79,13 @@ public class GameController {
         this.gamePanel = gamePanel;
     }
 
-    public void resetCurrentPlayer(){
+    public void resetCurrentPlayer() {
         this.currentPlayer = ChessPiece.BLACK;
         blackScore = whiteScore = 2;
-        statusPanel.setScoreText(2,2);
+        statusPanel.setScoreText(2, 2);
         statusPanel.setPlayerText(currentPlayer.name());
     }
+
     public void readFileData(String fileName) {
         //todo: read date from file
         List<String> fileData = new ArrayList<>();
@@ -84,9 +99,15 @@ public class GameController {
             }
 
             gameRecord.copyToGame(this.gamePanel, this, fileData);
-            statusPanel.setScoreText(this.blackScore,this.whiteScore);
+            statusPanel.setScoreText(this.blackScore, this.whiteScore);
             statusPanel.setPlayerText(currentPlayer.name());
             gamePanel.findAllMoves(currentPlayer);
+
+            for (int i = 1; i < fileData.size(); i++) {
+                int[] arrayLine = {Character.getNumericValue(fileData.get(i).charAt(0)),Character.getNumericValue(fileData.get(i).charAt(2))};
+                gameRecord.getStep().clear();
+                gameRecord.getStep().add(arrayLine);
+            }
 
             fileData.forEach(System.out::println);
         } catch (IOException e) {
@@ -100,10 +121,10 @@ public class GameController {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-                    gameRecord.setChessboard(gamePanel.getChessBoard());
-                    gameRecord.setBlackCnt(blackScore);
-                    gameRecord.setWhiteCnt(whiteScore);
-                    gameRecord.setCurrentPlayer(currentPlayer);
+            gameRecord.setChessboard(gamePanel.getChessBoard());
+            gameRecord.setBlackCnt(blackScore);
+            gameRecord.setWhiteCnt(whiteScore);
+            gameRecord.setCurrentPlayer(currentPlayer);
 
 
             List<String> lines = gameRecord.toStringList();
@@ -117,15 +138,16 @@ public class GameController {
             e.printStackTrace();
         }
     }
-    public boolean canClick(){
+
+    public boolean canClick() {
         return gamePanel.findAllMoves(currentPlayer);
     }
+
     public boolean canClick(int row, int col) {
-        int cnt =  gamePanel.canClickGrid(row, col, currentPlayer);
+        int cnt = gamePanel.canClickGrid(row, col, currentPlayer);
         if (cnt == 0) {
             return false;
-        }
-        else{
+        } else {
             this.changeScore(cnt);
             return true;
         }
@@ -155,4 +177,18 @@ public class GameController {
     public void setCurrentPlayer(ChessPiece currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+
+//    public void loadToGame(List<String> fileData) {
+//        for (int i = 0; i < fileData.size(); i++) {
+//            this.gamePanel.getChessGrids(loadRow(fileData.get(i)), loadCol(fileData.get(i))).onMouseClicked();
+//        }
+//    }
+//
+//    public int loadRow(String string) {
+//        return Character.getNumericValue(string.charAt(string.indexOf('[') + 1));
+//    }
+//
+//    public int loadCol(String string) {
+//        return Character.getNumericValue(string.charAt(string.indexOf(']') - 1));
+//    }
 }
