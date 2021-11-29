@@ -59,6 +59,7 @@ public class GameFrame extends JFrame {
         loadGameBtn.addActionListener(e -> {
             System.out.println("clicked Load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
+            if(filePath.length()==0) return;
             chessBoardPanel.clear();
             chessBoardPanel.initialChessGrids();
             chessBoardPanel.clearReminders();
