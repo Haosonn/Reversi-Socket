@@ -46,6 +46,7 @@ public class ChessGridComponent extends BasicComponent {
                         GameFrame.controller.endGame();
                     }
                 }
+                
             }
             repaint();
         }

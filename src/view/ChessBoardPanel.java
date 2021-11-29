@@ -131,6 +131,7 @@ public class ChessBoardPanel extends JPanel
 
     }
     public boolean findAllMoves(ChessPiece currentPlayer){
+        clearReminders();
         int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         this.hasMove = false;
         for (int i = 0; i <= 7; i++) {
@@ -144,6 +145,7 @@ public class ChessBoardPanel extends JPanel
                 }
             }
         }
+        repaint();
         return this.hasMove;
     }
     public int canClickGrid(int row, int col, ChessPiece currentPlayer)
