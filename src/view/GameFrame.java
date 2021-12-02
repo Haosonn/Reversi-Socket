@@ -1,6 +1,7 @@
 package view;
 
 
+import client.Client;
 import controller.GameController;
 import model.ChessPiece;
 
@@ -13,7 +14,8 @@ public class GameFrame extends JFrame {
     private StatusPanel statusPanel;
 
 
-    public GameFrame(int frameSize) {
+    public GameFrame(int frameSize, Client client) {
+
 
         this.setTitle("2021F CS102A Project Reversi");
         this.setLayout(null);
@@ -32,6 +34,7 @@ public class GameFrame extends JFrame {
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
         controller = new GameController(chessBoardPanel, statusPanel);
         controller.setGamePanel(chessBoardPanel);
+        this.controller.client = client;
 
         this.add(chessBoardPanel);
         this.add(statusPanel);
@@ -77,7 +80,8 @@ public class GameFrame extends JFrame {
         add(undoBtn);
         undoBtn.addActionListener(e -> {
             System.out.println("clicked Undo Btn");
-            controller.undo();
+            controller.undoRequest();
+            //controller.undo();
             repaint();
         });
 

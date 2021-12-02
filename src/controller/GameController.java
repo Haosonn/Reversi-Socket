@@ -1,5 +1,6 @@
 package controller;
 
+import client.Client;
 import model.ChessPiece;
 import view.*;
 import game.GameRecord;
@@ -8,11 +9,12 @@ import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 
 public class GameController {
 
-
+    public Client client;
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
     private ChessPiece currentPlayer;
@@ -118,6 +120,15 @@ public class GameController {
         }
     }
 
+    public void readData(String data){
+        List<String> fileData = new ArrayList<>();
+        fileData.add(data);
+        GameRecord gameRecord = new GameRecord();
+        gameRecord.copyToGame(this.gamePanel, this, fileData);
+        statusPanel.setScoreText(this.blackScore, this.whiteScore);
+        statusPanel.setPlayerText(currentPlayer.name());
+        gamePanel.findAllMoves(currentPlayer);
+    }
     public void writeDataToFile(String filePath) {
         //todo: write data into file
         try {
@@ -190,7 +201,17 @@ public class GameController {
         this.currentPlayer = currentPlayer;
     }
 
+    public void undoRequest(){
+        try{
+            this.client.clientThread.dataOutputStream.writeUTF("<!UNDOREQUEST!>");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public void undo(){
+        if(client.canMove) return;
         GameRecord gameRecord = new GameRecord();
         if(gameHistory.size() == 1) return;
         gameHistory.remove(gameHistory.size()-1);
@@ -199,8 +220,21 @@ public class GameController {
         statusPanel.setScoreText(this.blackScore, this.whiteScore);
         statusPanel.setPlayerText(currentPlayer.name());
         gamePanel.findAllMoves(currentPlayer);
+        sendInfo();
+    }
+    public void sendInfo(){
+        GameRecord infoTosend = new GameRecord();
+        setThisStep(infoTosend);
+        String info = infoTosend.toString();
+        try {
+            this.client.clientThread.dataOutputStream.writeUTF(info);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
+
+
 
 //    public void loadToGame(List<String> fileData) {
 //        for (int i = 0; i < fileData.size(); i++) {

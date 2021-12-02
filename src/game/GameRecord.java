@@ -40,7 +40,7 @@ public class GameRecord {
                 if (chessboard[i][j] == ChessPiece.BLACK) finalString += "1 ";
                 if (chessboard[i][j] == ChessPiece.WHITE) finalString += "-1 ";
             }
-            finalString += '\n';
+            //finalString += '\n';
         }
 
         if (currentPlayer == ChessPiece.BLACK) finalString += "1 ";

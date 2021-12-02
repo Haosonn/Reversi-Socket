@@ -1,5 +1,6 @@
 package view;
 
+import client.Client;
 import components.ChessGridComponent;
 import game.GameRecord;
 import model.ChessPiece;
@@ -16,7 +17,6 @@ public class ChessBoardPanel extends JPanel
     public ChessGridComponent getChessGrids(int i, int j) {
         return chessGrids[i][j];
     }
-
 
     public ChessBoardPanel(int width, int height)
     {
@@ -193,6 +193,7 @@ public class ChessBoardPanel extends JPanel
         }
         return chessBoard;
     }
+
 
 
 }

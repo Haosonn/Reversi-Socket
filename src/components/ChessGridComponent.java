@@ -29,6 +29,7 @@ public class ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
+        if(!GameFrame.controller.client.canMove) return;
         if (GameFrame.controller.canClick(row, col)||GameFrame.controller.isCheatingBtnOn()) {
             if (this.chessPiece == null) {
                 this.reminder = false;
@@ -46,6 +47,8 @@ public class ChessGridComponent extends BasicComponent {
                         GameFrame.controller.endGame();
                     }
                 }
+                GameFrame.controller.client.canMove = false;
+                GameFrame.controller.sendInfo();
                 GameFrame.controller.addToHistory();
             }
             repaint();
