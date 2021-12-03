@@ -36,12 +36,13 @@ public class ClientThread extends Thread{
                 else if(msg.startsWith("<!COLOR!>")){
                     this.initialateColor(msg);
                 }
-                else if(msg.startsWith("<!UNDO_REQUEST!>")){
+                else if(msg.startsWith("<!UNDOREQUEST!>")){
                     this.undoRequest();
                 }
                 else if(msg.startsWith("<!AGREEUNDO!>")){
                     System.out.println("Agree!");
                     Client.mainFrame.controller.undo();
+                    Client.mainFrame.repaint();
                 }
                 else if(msg.startsWith("<!DISAGREEUNDO!>")){
                     System.out.println("Disagree!");
@@ -77,6 +78,8 @@ public class ClientThread extends Thread{
         try{
             if(ans.charAt(0) == 'Y'){
                 dataOutputStream.writeUTF("<!AGREEUNDO!>");
+                Client.mainFrame.controller.undo();
+                Client.mainFrame.repaint();
             }
             else{
                 dataOutputStream.writeUTF("<!DISAGREEUNDO!>");

@@ -128,6 +128,7 @@ public class GameController {
         statusPanel.setScoreText(this.blackScore, this.whiteScore);
         statusPanel.setPlayerText(currentPlayer.name());
         gamePanel.findAllMoves(currentPlayer);
+        this.addToHistory();
     }
     public void writeDataToFile(String filePath) {
         //todo: write data into file
@@ -211,7 +212,6 @@ public class GameController {
     }
 
     public void undo(){
-        if(client.canMove) return;
         GameRecord gameRecord = new GameRecord();
         if(gameHistory.size() == 1) return;
         gameHistory.remove(gameHistory.size()-1);
@@ -220,7 +220,7 @@ public class GameController {
         statusPanel.setScoreText(this.blackScore, this.whiteScore);
         statusPanel.setPlayerText(currentPlayer.name());
         gamePanel.findAllMoves(currentPlayer);
-        sendInfo();
+        this.client.canMove = this.client.canMove ? false:true;
     }
     public void sendInfo(){
         GameRecord infoTosend = new GameRecord();
