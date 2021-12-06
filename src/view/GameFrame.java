@@ -33,9 +33,9 @@ public class GameFrame extends JFrame {
 
         statusPanel = new StatusPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.1));
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
-        controller = new GameController(chessBoardPanel, statusPanel);
+        controller = new GameController(chessBoardPanel, statusPanel, client);
         controller.setGamePanel(chessBoardPanel);
-        this.controller.client = client;
+
 
         this.add(chessBoardPanel);
         this.add(statusPanel);

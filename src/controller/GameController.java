@@ -40,12 +40,13 @@ public class GameController {
         return gameHistory.get(gameHistory.size()-1);
     }
 
-    public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
+    public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel, Client client) {
         this.gamePanel = gamePanel;
         this.statusPanel = statusPanel;
         this.currentPlayer = ChessPiece.BLACK;
         blackScore = 2;
         whiteScore = 2;
+        this.client = client;
         if(client.aiMode)
         {
             easyAI = new EasyAI();
