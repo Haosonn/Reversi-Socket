@@ -1,12 +1,14 @@
 package controller;
 
 import ai.EasyAI;
+import ai.MediumAI;
 import client.Client;
 import model.ChessPiece;
 import view.*;
 import game.GameRecord;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Vector;
 public class GameController {
 
     public EasyAI easyAI;
+    public MediumAI mediumAI;
     public Client client;
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
@@ -51,6 +54,8 @@ public class GameController {
         {
             easyAI = new EasyAI();
             easyAI.start();
+            mediumAI = new MediumAI();
+            mediumAI.start();
         }
 
     }
@@ -183,12 +188,25 @@ public class GameController {
     }
 
     public void endGame() {
-        JFrame endFrame = new JFrame();
+        class EndDialog extends JDialog{
+            public EndDialog(int result){
+                super();
+                Container container = getContentPane();
+                if(result == 1)
+                    container.add(new JLabel("BLACK WIN"));
+                else
+                    container.add(new JLabel("WHITE WIN"));
+                setBounds(120,120,100,100);
+                setVisible(true);
+            }
+        }
         if (this.blackScore > this.whiteScore) {
+            EndDialog endDialog = new EndDialog(1);
             statusPanel.setGameResult("BLACK WIN");
         } else {
             if (this.whiteScore > this.blackScore) {
                 statusPanel.setGameResult("WHITE WIN");
+                EndDialog endDialog = new EndDialog(-1);
             } else {
                 statusPanel.setGameResult("DRAW");
             }
@@ -262,11 +280,14 @@ public class GameController {
         return tempChessPiece;
     }
 
+    public int getBlackScore() {
+        return this.blackScore;
+    }
 
-
-
-
-//    public void loadToGame(List<String> fileData) {
+    public int getWhiteScore() {
+        return this.whiteScore;
+    }
+    //    public void loadToGame(List<String> fileData) {
 //        for (int i = 0; i < fileData.size(); i++) {
 //            this.gamePanel.getChessGrids(loadRow(fileData.get(i)), loadCol(fileData.get(i))).onMouseClicked();
 //        }

@@ -4,13 +4,20 @@ import controller.GameController;
 import model.ChessPiece;
 import view.GameFrame;
 
-public class EasyAI extends Thread {
+public class MediumAI extends Thread {
 
     protected ChessPiece[][] chessboard = new ChessPiece[8][8];
-    public ChessPiece color = ChessPiece.BLACK;
+    public ChessPiece color = ChessPiece.WHITE;
     protected boolean[][] reminder = new boolean[8][8];
     public final int CHESS_COUNT = 8;
-
+    public int[][] value = {{90,-60,10,10,10,10,-60,90},
+                            {-60,-80,5,5,5,5,-80,-60},
+                            {10,5,1,1,1,1,5,10},
+                            {10,5,1,1,1,1,5,10},
+                            {10,5,1,1,1,1,5,10},
+                            {10,5,1,1,1,1,5,10},
+                            {-60,-80,5,5,5,5,-80,-60},
+                            {90,-60,10,10,10,10,-60,90}};
     public void loadGame(ChessPiece[][] chessboard) {
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
@@ -46,14 +53,14 @@ public class EasyAI extends Thread {
     public int[] findBestMove() {
         findAllMoves(color);
         int[] bestMove = new int[2];
-        int mostReverseCnt = 0;
-        int tempCnt;
+        int mostValue = -999;
+        int tempValue;
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (this.reminder[i][j]) {
-                    tempCnt = cntReverse(i,j,false);
-                    if(tempCnt > mostReverseCnt){
-                        mostReverseCnt = tempCnt;
+                    tempValue = this.value[i][j];
+                    if(tempValue > mostValue){
+                        mostValue = tempValue;
                         bestMove[0] = i;
                         bestMove[1] = j;
                     }
@@ -118,6 +125,8 @@ public class EasyAI extends Thread {
         while(flag){
             try { Thread.sleep ( 250 ) ;
             } catch (InterruptedException ie){}
+            if(GameFrame.controller.getBlackScore() + GameFrame.controller.getWhiteScore() == 64)
+                GameFrame.controller.endGame();
             if(!GameFrame.controller.canClick())
                 GameFrame.controller.swapPlayer();
             if(GameFrame.controller.getCurrentPlayer() == this.color){
@@ -140,6 +149,7 @@ public class EasyAI extends Thread {
         }
     }
 }
+
 
 
 

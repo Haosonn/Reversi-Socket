@@ -26,7 +26,7 @@ public class Client {
         name = typeIn.next();
         try {
             // 和服务器创建连接
-            this.socket = new Socket("localhost", 9090);
+            this.socket = new Socket("192.168.244.208", 9090);
             clientThread= new ClientThread(this);
             clientThread.start();
 
