@@ -15,7 +15,13 @@ public class Client {
     public static GameFrame mainFrame;
     public int color;
     public boolean canMove;
+    public boolean onlineMode;
+    public boolean aiMode;
     public Client(){
+        this.canMove = true;
+        this.onlineMode = false;
+        this.aiMode = true;
+        if(!onlineMode) return;
         Scanner typeIn = new Scanner(System.in);
         name = typeIn.next();
         try {
@@ -30,6 +36,7 @@ public class Client {
     }
     public static void main(String[] args) throws IOException {
         Client client = new Client();
+
         SwingUtilities.invokeLater(() -> {
 
             mainFrame = new GameFrame(800, client);

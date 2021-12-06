@@ -1,12 +1,9 @@
 package components;
 
-import controller.GameController;
-import game.GameRecord;
 import model.*;
 import view.GameFrame;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
@@ -29,30 +26,31 @@ public class ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
-        if(!GameFrame.controller.client.canMove) return;
+        if(!GameFrame.controller.client.canMove && GameFrame.controller.client.onlineMode) return;
         if (GameFrame.controller.canClick(row, col)||GameFrame.controller.isCheatingBtnOn()) {
-            if (this.chessPiece == null) {
+//            if (this.chessPiece == null) {
                 this.reminder = false;
 //                int[] step = {row, col};
 //                GameFrame.controller.getThisStep().getStep().add(step);
 //                for (int i = 0; i < GameFrame.controller.getThisStep().getStep().size(); i++) {
 //                    System.out.println(Arrays.toString(GameFrame.controller.getThisStep().getStep().get(i)));
 //                }
-                this.chessPiece = GameFrame.controller.getCurrentPlayer();
-                GameFrame.controller.addScore(1);
+                GameFrame.controller.updateScore();
                 GameFrame.controller.swapPlayer();
-                if (!GameFrame.controller.canClick()) {
-                    GameFrame.controller.swapPlayer();
-                    if (!GameFrame.controller.canClick()) {
-                        GameFrame.controller.endGame();
-                    }
-                }
+//                if (!GameFrame.controller.canClick()) {
+//                    if(!GameFrame.controller.client.aiMode)
+//                    GameFrame.controller.swapPlayer();
+//                    if (!GameFrame.controller.canClick()) {
+//                        GameFrame.controller.endGame();
+//                    }
+//                }
                 GameFrame.controller.client.canMove = false;
+                if(GameFrame.controller.client.onlineMode)
                 GameFrame.controller.sendInfo();
                 GameFrame.controller.addToHistory();
             }
             repaint();
-        }
+//        }
     }
 
 

@@ -1,6 +1,7 @@
 package view;
 
 
+import ai.EasyAI;
 import client.Client;
 import controller.GameController;
 import model.ChessPiece;
@@ -80,8 +81,8 @@ public class GameFrame extends JFrame {
         add(undoBtn);
         undoBtn.addActionListener(e -> {
             System.out.println("clicked Undo Btn");
-            controller.undoRequest();
-            //controller.undo();
+            if(controller.client.onlineMode) controller.undoRequest();
+            else controller.undo();
             repaint();
         });
 
@@ -109,5 +110,9 @@ public class GameFrame extends JFrame {
         this.controller.resetCurrentPlayer();
         this.controller.addToHistory();
         repaint();
+    }
+
+    public ChessBoardPanel getChessBoardPanel() {
+        return this.chessBoardPanel;
     }
 }

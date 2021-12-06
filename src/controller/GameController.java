@@ -1,5 +1,6 @@
 package controller;
 
+import ai.EasyAI;
 import client.Client;
 import model.ChessPiece;
 import view.*;
@@ -14,6 +15,7 @@ import java.util.Vector;
 
 public class GameController {
 
+    public EasyAI easyAI;
     public Client client;
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
@@ -44,6 +46,12 @@ public class GameController {
         this.currentPlayer = ChessPiece.BLACK;
         blackScore = 2;
         whiteScore = 2;
+        if(client.aiMode)
+        {
+            easyAI = new EasyAI();
+            easyAI.start();
+        }
+
     }
 
     public void swapPlayer() {
@@ -52,25 +60,34 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
-    public void addScore(int score) {
-        //todo: modify the countScore method
-        if (currentPlayer == ChessPiece.BLACK) {
-            blackScore += score;
-        } else {
-            whiteScore += score;
+//    public void addScore(int score) {
+//        //todo: modify the countScore method
+//        if (currentPlayer == ChessPiece.BLACK) {
+//            blackScore += score;
+//        } else {
+//            whiteScore += score;
+//        }
+//    }
+//
+//    public void changeScore(int score) {
+//        if (currentPlayer == ChessPiece.BLACK) {
+//            blackScore += score;
+//            whiteScore -= score;
+//        } else {
+//            whiteScore += score;
+//            blackScore -= score;
+//        }
+//    }
+
+    public void updateScore(){
+        blackScore = whiteScore = 0;
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if(gamePanel.getChessBoard()[i][j] == ChessPiece.BLACK) blackScore++;
+                else if(gamePanel.getChessBoard()[i][j] == ChessPiece.WHITE) whiteScore++;
+            }
         }
     }
-
-    public void changeScore(int score) {
-        if (currentPlayer == ChessPiece.BLACK) {
-            blackScore += score;
-            whiteScore -= score;
-        } else {
-            whiteScore += score;
-            blackScore -= score;
-        }
-    }
-
     public ChessPiece getCurrentPlayer() {
         return currentPlayer;
     }
@@ -158,7 +175,8 @@ public class GameController {
         if (cnt == 0) {
             return false;
         } else {
-            this.changeScore(cnt);
+            this.gamePanel.repaint();
+            this.updateScore();
             return true;
         }
     }
@@ -233,6 +251,17 @@ public class GameController {
         }
 
     }
+    public ChessPiece[][] getChessBoard(){
+        ChessPiece[][] tempChessPiece = new ChessPiece[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                tempChessPiece[i][j] = gamePanel.getChessBoard()[i][j];
+            }
+        }
+        return tempChessPiece;
+    }
+
+
 
 
 

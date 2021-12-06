@@ -175,8 +175,7 @@ public class ChessBoardPanel extends JPanel
             {
                 reverseCnt += reverse(row, col, currentPlayer, direction[correctDir[i]][0], direction[correctDir[i]][1]);
             }
-
-            //findAllMoves((currentPlayer == ChessPiece.BLACK)? ChessPiece.WHITE : ChessPiece.BLACK);
+            chessGrids[row][col].setChessPiece(currentPlayer);
             repaint();
             return reverseCnt;
         }
