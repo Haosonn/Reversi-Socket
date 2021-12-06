@@ -3,6 +3,7 @@ package components;
 import model.*;
 import view.GameFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class ChessGridComponent extends BasicComponent {
@@ -10,6 +11,12 @@ public class ChessGridComponent extends BasicComponent {
     public static int gridSize;
     public static Color gridColor = new Color(255, 150, 50);
 
+    public static final Color none = new Color(0, 0, 0, 0);
+    public static boolean isCustom = false;
+    public static Color primaryColor = Color.DARK_GRAY;
+    public static Color secondaryColor = Color.LIGHT_GRAY;
+
+    private Image blackChess, whiteChess;
     private ChessPiece chessPiece;
     private int row;
     private int col;
@@ -37,13 +44,13 @@ public class ChessGridComponent extends BasicComponent {
 //                }
                 GameFrame.controller.updateScore();
                 GameFrame.controller.swapPlayer();
-//                if (!GameFrame.controller.canClick()) {
-//                    if(!GameFrame.controller.client.aiMode)
-//                    GameFrame.controller.swapPlayer();
-//                    if (!GameFrame.controller.canClick()) {
-//                        GameFrame.controller.endGame();
-//                    }
-//                }
+                if (!GameFrame.controller.canClick()) {
+                    if(!GameFrame.controller.client.aiMode)
+                    GameFrame.controller.swapPlayer();
+                    if (!GameFrame.controller.canClick()) {
+                        GameFrame.controller.endGame();
+                    }
+                }
                 GameFrame.controller.client.canMove = false;
                 if(GameFrame.controller.client.onlineMode)
                 GameFrame.controller.sendInfo();
@@ -71,11 +78,17 @@ public class ChessGridComponent extends BasicComponent {
     }
 
     public void drawPiece(Graphics g) {
-        g.setColor(gridColor);
-        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
+//        g.setColor(gridColor);
+//        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
+        blackChess = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\Black.png").getImage();
+        whiteChess = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\White.png").getImage();
         if (this.chessPiece != null) {
-            g.setColor(chessPiece.getColor());
-            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+//            g.setColor(chessPiece.getColor());
+//            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+            if(this.chessPiece == ChessPiece.BLACK)
+                g.drawImage(blackChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+            else
+                g.drawImage(whiteChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
         }
         if (this.reminder) {
             g.setColor(Color.GRAY);

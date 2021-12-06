@@ -1,6 +1,7 @@
 package client;
 
 import view.GameFrame;
+import view.MenuBar;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -19,14 +20,14 @@ public class Client {
     public boolean aiMode;
     public Client(){
         this.canMove = true;
-        this.onlineMode = false;
-        this.aiMode = true;
+        this.onlineMode = true;
+        this.aiMode = false;
         if(!onlineMode) return;
         Scanner typeIn = new Scanner(System.in);
         name = typeIn.next();
         try {
             // 和服务器创建连接
-            this.socket = new Socket("192.168.244.208", 9090);
+            this.socket = new Socket("localhost", 9090);
             clientThread= new ClientThread(this);
             clientThread.start();
 
@@ -40,6 +41,7 @@ public class Client {
         SwingUtilities.invokeLater(() -> {
 
             mainFrame = new GameFrame(800, client);
+            mainFrame.setJMenuBar(new MenuBar(mainFrame));
             mainFrame.setVisible(true);
 
 
