@@ -116,7 +116,7 @@ public class EasyAI extends Thread {
     public void run() {
         boolean flag = true;
         while(flag){
-            try { Thread.sleep ( 250 ) ;
+            try { Thread.sleep ( 500 ) ;
             } catch (InterruptedException ie){}
             if(!GameFrame.controller.canClick())
                 GameFrame.controller.swapPlayer();

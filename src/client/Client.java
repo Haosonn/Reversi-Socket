@@ -20,8 +20,8 @@ public class Client {
     public boolean aiMode;
     public Client(){
         this.canMove = true;
-        this.onlineMode = true;
-        this.aiMode = false;
+        this.onlineMode = false;
+        this.aiMode = true;
         if(!onlineMode) return;
         Scanner typeIn = new Scanner(System.in);
         name = typeIn.next();
