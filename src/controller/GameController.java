@@ -37,7 +37,7 @@ public class GameController {
 
     private int blackScore;
     private int whiteScore;
-    private boolean cheatingBtnOn = true;
+    private boolean cheatingBtnOn = false;
 
     private ArrayList<GameRecord> gameHistory = new ArrayList();
 
