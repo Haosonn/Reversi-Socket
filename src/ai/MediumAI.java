@@ -125,7 +125,7 @@ public class MediumAI extends Thread {
         while(flag){
             try { Thread.sleep ( 250 ) ;
             } catch (InterruptedException ie){}
-            if(GameFrame.controller.getBlackScore() + GameFrame.controller.getWhiteScore() == 64)
+            if(GameFrame.controller.getBlackScore() + GameFrame.controller.getWhiteScore() == 64 || GameFrame.controller.getBlackScore() == 0 || GameFrame.controller.getWhiteScore() == 0 )
                 GameFrame.controller.endGame();
             if(!GameFrame.controller.canClick())
                 GameFrame.controller.swapPlayer();
