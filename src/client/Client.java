@@ -42,7 +42,7 @@ public class Client {
 
         SwingUtilities.invokeLater(() -> {
 
-            mainFrame = new GameFrame(2000,1500, client);
+            mainFrame = new GameFrame(1000,1000, client);
             mainFrame.setJMenuBar(new MenuBar(mainFrame));
             mainFrame.setVisible(true);
 

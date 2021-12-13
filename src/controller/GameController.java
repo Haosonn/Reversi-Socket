@@ -1,8 +1,5 @@
 package controller;
 
-import ai.EasyAI;
-import ai.HardAI;
-import ai.MediumAI;
 import client.Client;
 import model.ChessPiece;
 import view.*;
@@ -13,7 +10,6 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 
 public class GameController {

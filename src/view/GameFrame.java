@@ -1,7 +1,6 @@
 package view;
 
 
-import ai.EasyAI;
 import client.Client;
 import controller.GameController;
 import model.ChessPiece;
