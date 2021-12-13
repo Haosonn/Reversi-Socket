@@ -24,25 +24,13 @@ public class Client {
         this.onlineMode = false;
         this.aiMode = false;
 
-//        if(!onlineMode) return;
-//        Scanner typeIn = new Scanner(System.in);
-//        name = typeIn.next();
-//        try {
-//            // 和服务器创建连接
-//            this.socket = new Socket("localhost", 9090);
-//            clientThread= new ClientThread(this);
-//            clientThread.start();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
     public static void main(String[] args) throws IOException {
         Client client = new Client();
 
         SwingUtilities.invokeLater(() -> {
 
-            mainFrame = new GameFrame(1000,1000, client);
+            mainFrame = new GameFrame(2000,1500, client);
             mainFrame.setJMenuBar(new MenuBar(mainFrame));
             mainFrame.setVisible(true);
 

@@ -35,13 +35,9 @@ public class ChessGridComponent extends BasicComponent {
         //todo: complete mouse click method
         if (!GameFrame.controller.client.canMove && GameFrame.controller.client.onlineMode) return;
         if (GameFrame.controller.canClick(row, col) || GameFrame.controller.isCheatingBtnOn()) {
-//            if (this.chessPiece == null) {
+
             this.reminder = false;
-//                int[] step = {row, col};
-//                GameFrame.controller.getThisStep().getStep().add(step);
-//                for (int i = 0; i < GameFrame.controller.getThisStep().getStep().size(); i++) {
-//                    System.out.println(Arrays.toString(GameFrame.controller.getThisStep().getStep().get(i)));
-//                }
+
             GameFrame.controller.updateScore();
             GameFrame.controller.swapPlayer();
             if (!GameFrame.controller.canClick()) {

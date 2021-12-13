@@ -46,6 +46,9 @@ public class MenuBar extends JMenuBar {
         menu.addSeparator();
 
         JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem("cheating mode");
+
+
+
         menu.add(cbMenuItem);
 
         return menu;

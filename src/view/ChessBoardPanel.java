@@ -164,8 +164,12 @@ public class ChessBoardPanel extends JPanel
         if (chessGrids[row][col].getChessPiece() != null) return 0;
 
 
-        if (!chessGrids[row][col].getReminder()) return 0;
-
+        if (!chessGrids[row][col].getReminder()&&!GameFrame.controller.isCheatingBtnOn()) return 0;
+        if(GameFrame.controller.isCheatingBtnOn()){
+            chessGrids[row][col].setChessPiece(currentPlayer);
+            repaint();
+            return 1;
+        }
 
         int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         int[] correctDir = new int[9];
