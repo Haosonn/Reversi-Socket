@@ -291,6 +291,8 @@ public class GameController {
     public int getWhiteScore() {
         return this.whiteScore;
     }
+
+
     //    public void loadToGame(List<String> fileData) {
 //        for (int i = 0; i < fileData.size(); i++) {
 //            this.gamePanel.getChessGrids(loadRow(fileData.get(i)), loadCol(fileData.get(i))).onMouseClicked();

@@ -10,20 +10,9 @@ public class Server {
     public Vector onlineList = new Vector();
     ServerSocket serverSocket;
     ServerThread serverThread;
+    ServerFrame serverFrame;
     public Server() {
-        try {
-            // 创建服务端socket
-            serverSocket = new ServerSocket(9090);
-            // 创建客户端socket
-            serverThread = new ServerThread(this);
-
-            serverThread.start();
-
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        serverFrame = new ServerFrame(this);
     }
     public static void main(String[] args) throws IOException {
         Server server = new Server();

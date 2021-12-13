@@ -33,8 +33,8 @@ public class ClientThread extends Thread{
                 String msg = dataInputStream.readUTF().trim();
                 System.out.println(msg);
                 if(msg.equals("Welcome")) continue;
-                else if(msg.startsWith("<!COLOR!>")){
-                    this.initialateColor(msg);
+                else if(msg.startsWith("<!ACCEPT_CHALLENGE!>")){
+                    this.initialateColor(1);
                 }
                 else if(msg.startsWith("<!UNDOREQUEST!>")){
                     this.undoRequest();
@@ -46,6 +46,12 @@ public class ClientThread extends Thread{
                 }
                 else if(msg.startsWith("<!DISAGREEUNDO!>")){
                     System.out.println("Disagree!");
+                }
+                else if(msg.startsWith("<!NAME_LIST!>")){
+                    Client.mainFrame.refreshPlayerList(msg);
+                }
+                else if(msg.startsWith("<!CHALLENGE!>")){
+                    Client.mainFrame.getChallengeRequest(msg);
                 }
                 else{
                     Client.mainFrame.controller.readData(msg);
@@ -61,8 +67,8 @@ public class ClientThread extends Thread{
 
     }
 
-    public void initialateColor(String msg) {
-        if(msg.charAt(10) == '0'){
+    public void initialateColor(int color) {
+        if(color == 1){
             this.father.color = 1;
             this.father.canMove = true;
         }
