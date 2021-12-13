@@ -1,5 +1,6 @@
 package controller;
 
+import ai.ThreadForAI;
 import client.Client;
 import model.ChessPiece;
 import view.*;
@@ -14,13 +15,25 @@ import java.util.List;
 
 public class GameController {
 
-    public EasyAI easyAI;
-    public MediumAI mediumAI;
-    public HardAI hardAI;
     public Client client;
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
     private ChessPiece currentPlayer;
+
+    private ThreadForAI threadForBlackAI;
+    private ThreadForAI threadForWhiteAI;
+    private boolean blackAIModeOn = false;
+    private boolean whiteAIModeOn = false;
+    private int blackDeep = 3;
+    private int whiteDeep = 3;
+
+    public boolean isBlackAIModeOn() {
+        return blackAIModeOn;
+    }
+
+    public void setBlackAIModeOn(boolean blackAIModeOn) {
+        this.blackAIModeOn = blackAIModeOn;
+    }
 
     private int blackScore;
     private int whiteScore;
@@ -32,13 +45,52 @@ public class GameController {
         return cheatingBtnOn;
     }
 
+    public void setThreadForBlackAI(ThreadForAI threadForBlackAI) {
+        this.threadForBlackAI = threadForBlackAI;
+    }
+
+    public boolean isWhiteAIModeOn() {
+        return whiteAIModeOn;
+    }
+
+    public void setWhiteAIModeOn(boolean whiteAIModeOn) {
+        this.whiteAIModeOn = whiteAIModeOn;
+    }
+
+    public int getBlackDeep() {
+        return blackDeep;
+    }
+
+    public void setBlackDeep(int blackDeep) {
+        this.blackDeep = blackDeep;
+    }
+
+    public int getWhiteDeep() {
+        return whiteDeep;
+    }
+
+    public void setWhiteDeep(int whiteDeep) {
+        this.whiteDeep = whiteDeep;
+    }
+
+    public ThreadForAI getThreadForBlackAI() {
+        return threadForBlackAI;
+    }
+
+    public ThreadForAI getThreadForWhiteAI() {
+        return threadForWhiteAI;
+    }
+
+    public void setThreadForWhiteAI(ThreadForAI threadForWhiteAI) {
+        this.threadForWhiteAI = threadForWhiteAI;
+    }
+
     public void setCheatingBtnOn(boolean cheatingBtnOn) {
         this.cheatingBtnOn = cheatingBtnOn;
     }
 
-    public GameRecord getThisStep()
-    {
-        return gameHistory.get(gameHistory.size()-1);
+    public GameRecord getThisStep() {
+        return gameHistory.get(gameHistory.size() - 1);
     }
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel, Client client) {
@@ -48,14 +100,13 @@ public class GameController {
         blackScore = 2;
         whiteScore = 2;
         this.client = client;
-        if(client.aiMode)
-        {
+        if (client.aiMode) {
 //            easyAI = new EasyAI();
 //            easyAI.start();
 //            mediumAI = new MediumAI();
 //            mediumAI.start();
-            hardAI = new HardAI();
-            hardAI.start();
+//            hardAI = new HardAI();
+//            hardAI.start();
         }
 
     }
@@ -85,15 +136,16 @@ public class GameController {
 //        }
 //    }
 
-    public void updateScore(){
+    public void updateScore() {
         blackScore = whiteScore = 0;
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
-                if(gamePanel.getChessBoard()[i][j] == ChessPiece.BLACK) blackScore++;
-                else if(gamePanel.getChessBoard()[i][j] == ChessPiece.WHITE) whiteScore++;
+                if (gamePanel.getChessBoard()[i][j] == ChessPiece.BLACK) blackScore++;
+                else if (gamePanel.getChessBoard()[i][j] == ChessPiece.WHITE) whiteScore++;
             }
         }
     }
+
     public ChessPiece getCurrentPlayer() {
         return currentPlayer;
     }
@@ -132,7 +184,7 @@ public class GameController {
             gamePanel.findAllMoves(currentPlayer);
 
             for (int i = 1; i < fileData.size(); i++) {
-                int[] arrayLine = {Character.getNumericValue(fileData.get(i).charAt(0)),Character.getNumericValue(fileData.get(i).charAt(2))};
+                int[] arrayLine = {Character.getNumericValue(fileData.get(i).charAt(0)), Character.getNumericValue(fileData.get(i).charAt(2))};
                 gameRecord.getStep().clear();
                 gameRecord.getStep().add(arrayLine);
             }
@@ -143,7 +195,7 @@ public class GameController {
         }
     }
 
-    public void readData(String data){
+    public void readData(String data) {
         data = data.substring(9);
         List<String> fileData = new ArrayList<>();
         fileData.add(data);
@@ -154,6 +206,7 @@ public class GameController {
         gamePanel.findAllMoves(currentPlayer);
         this.addToHistory();
     }
+
     public void writeDataToFile(String filePath) {
         //todo: write data into file
         try {
@@ -189,15 +242,15 @@ public class GameController {
     }
 
     public void endGame() {
-        class EndDialog extends JDialog{
-            public EndDialog(int result){
+        class EndDialog extends JDialog {
+            public EndDialog(int result) {
                 super();
                 Container container = getContentPane();
-                if(result == 1)
+                if (result == 1)
                     container.add(new JLabel("BLACK WIN"));
                 else
                     container.add(new JLabel("WHITE WIN"));
-                setBounds(120,120,100,100);
+                setBounds(120, 120, 100, 100);
                 setVisible(true);
             }
         }
@@ -214,14 +267,14 @@ public class GameController {
         }
     }
 
-    public void setThisStep (GameRecord gameRecord){
+    public void setThisStep(GameRecord gameRecord) {
         gameRecord.setChessboard(gamePanel.getChessBoard());
         gameRecord.setBlackCnt(blackScore);
         gameRecord.setWhiteCnt(whiteScore);
         gameRecord.setCurrentPlayer(currentPlayer);
     }
 
-    public void addToHistory(){
+    public void addToHistory() {
         GameRecord thisStep = new GameRecord();
         setThisStep(thisStep);
         gameHistory.add(thisStep);
@@ -240,38 +293,40 @@ public class GameController {
         this.currentPlayer = currentPlayer;
     }
 
-    public void undoRequest(){
-        try{
+    public void undoRequest() {
+        try {
             this.client.clientThread.dataOutputStream.writeUTF("<!UNDOREQUEST!>");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void undo(){
+    public void undo() {
         GameRecord gameRecord = new GameRecord();
-        if(gameHistory.size() == 1) return;
-        gameHistory.remove(gameHistory.size()-1);
-        List<String> previousMove = gameHistory.get(gameHistory.size()-1).toStringList();
+        if (gameHistory.size() == 1) return;
+        gameHistory.remove(gameHistory.size() - 1);
+        List<String> previousMove = gameHistory.get(gameHistory.size() - 1).toStringList();
         gameRecord.copyToGame(this.gamePanel, this, previousMove);
         statusPanel.setScoreText(this.blackScore, this.whiteScore);
         statusPanel.setPlayerText(currentPlayer.name());
         gamePanel.findAllMoves(currentPlayer);
-        this.client.canMove = this.client.canMove ? false:true;
+        this.client.canMove = this.client.canMove ? false : true;
     }
-    public void sendInfo(){
+
+    public void sendInfo() {
         GameRecord infoTosend = new GameRecord();
         setThisStep(infoTosend);
         String info = infoTosend.toString();
         try {
-            this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> "+ info);
-        } catch (Exception e){
+            this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> " + info);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    public ChessPiece[][] getChessBoard(){
+
+    public ChessPiece[][] getChessBoard() {
         ChessPiece[][] tempChessPiece = new ChessPiece[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

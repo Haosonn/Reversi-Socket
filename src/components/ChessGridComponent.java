@@ -33,30 +33,30 @@ public class ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
-        if(!GameFrame.controller.client.canMove && GameFrame.controller.client.onlineMode) return;
-        if (GameFrame.controller.canClick(row, col)||GameFrame.controller.isCheatingBtnOn()) {
+        if (!GameFrame.controller.client.canMove && GameFrame.controller.client.onlineMode) return;
+        if (GameFrame.controller.canClick(row, col) || GameFrame.controller.isCheatingBtnOn()) {
 //            if (this.chessPiece == null) {
-                this.reminder = false;
+            this.reminder = false;
 //                int[] step = {row, col};
 //                GameFrame.controller.getThisStep().getStep().add(step);
 //                for (int i = 0; i < GameFrame.controller.getThisStep().getStep().size(); i++) {
 //                    System.out.println(Arrays.toString(GameFrame.controller.getThisStep().getStep().get(i)));
 //                }
-                GameFrame.controller.updateScore();
-                GameFrame.controller.swapPlayer();
-                if (!GameFrame.controller.canClick()) {
-                    if(!GameFrame.controller.client.aiMode)
+            GameFrame.controller.updateScore();
+            GameFrame.controller.swapPlayer();
+            if (!GameFrame.controller.canClick()) {
+                if (!GameFrame.controller.client.aiMode)
                     GameFrame.controller.swapPlayer();
-                    if (!GameFrame.controller.canClick()) {
-                        GameFrame.controller.endGame();
-                    }
+                if (!GameFrame.controller.canClick()) {
+                    GameFrame.controller.endGame();
                 }
-                GameFrame.controller.client.canMove = false;
-                if(GameFrame.controller.client.onlineMode)
-                GameFrame.controller.sendInfo();
-                GameFrame.controller.addToHistory();
             }
-            repaint();
+            GameFrame.controller.client.canMove = false;
+            if (GameFrame.controller.client.onlineMode)
+                GameFrame.controller.sendInfo();
+            GameFrame.controller.addToHistory();
+        }
+        repaint();
 //        }
     }
 
@@ -85,13 +85,13 @@ public class ChessGridComponent extends BasicComponent {
         if (this.chessPiece != null) {
 //            g.setColor(chessPiece.getColor());
 //            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
-            if(this.chessPiece == ChessPiece.BLACK)
+            if (this.chessPiece == ChessPiece.BLACK)
                 g.drawImage(blackChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
             else
                 g.drawImage(whiteChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
         }
         if (this.reminder) {
-            g.setColor(Color.GRAY);
+            g.setColor(new Color(0, 0, 0, 70));
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
         }
     }
