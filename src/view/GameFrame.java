@@ -129,12 +129,42 @@ public class GameFrame extends JFrame {
     }
 
     public void getChallengeRequest(String msg){
-        JOptionPane.showMessageDialog(this, String.format("%s challenges you!\nDo you agree his(her) request?", msg.substring(14)), "Info",
+        if(!msg.split(" ")[1].equals(controller.client.name)) return;
+        JOptionPane.showMessageDialog(this, String.format("%s challenges you!\nDo you agree his(her) request?", msg.split(" ")[2]), "Info",
                 JOptionPane.INFORMATION_MESSAGE);
         this.networkPanel.acceptChallengeButton.setEnabled(true);
         this.networkPanel.refuseChallengeButton.setEnabled(true);
     }
     public ChessBoardPanel getChessBoardPanel() {
         return this.chessBoardPanel;
+    }
+
+    public void receiveRefuseChallengeMsg(String msg){
+        JOptionPane.showMessageDialog(this, String.format("%s refuses your challenge!", msg.split(" ")[1]), "Info",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void repeatName(){
+        JOptionPane.showMessageDialog(this, "Your name is used！\n Please choose another one!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        try{
+            controller.client.clientThread.dataOutputStream.close();
+            controller.client.clientThread.dataInputStream.close();
+            this.networkPanel.ipTextField.setEnabled(true);
+            this.networkPanel.portTextField.setEnabled(true);
+            this.networkPanel.nameTextField.setEnabled(true);
+            this.networkPanel.connectButton.setEnabled(true);
+            this.networkPanel.disconnectButton.setEnabled(false);
+            this.networkPanel.challengeButton.setEnabled(false);
+            this.networkPanel.acceptChallengeButton.setEnabled(false);
+            this.networkPanel.refuseChallengeButton.setEnabled(false);
+            controller.client.socket.close();
+            controller.client.socket = null;
+            controller.client.clientThread.flag = false;
+            controller.client.clientThread = null;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

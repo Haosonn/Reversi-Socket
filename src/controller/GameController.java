@@ -148,6 +148,7 @@ public class GameController {
     }
 
     public void readData(String data){
+        data = data.substring(9);
         List<String> fileData = new ArrayList<>();
         fileData.add(data);
         GameRecord gameRecord = new GameRecord();
@@ -268,7 +269,7 @@ public class GameController {
         setThisStep(infoTosend);
         String info = infoTosend.toString();
         try {
-            this.client.clientThread.dataOutputStream.writeUTF(info);
+            this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> "+ info);
         } catch (Exception e){
             e.printStackTrace();
         }

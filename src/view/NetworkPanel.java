@@ -146,7 +146,7 @@ public class NetworkPanel extends JPanel {
             try {
 
                 this.client.oppositeName = opposite;
-                this.client.clientThread.dataOutputStream.writeUTF("<!CHALLENGE!>" + opposite);
+                this.client.clientThread.dataOutputStream.writeUTF(String.format("<!CHALLENGE!> %s %s", opposite, this.client.name));
                 JOptionPane.showMessageDialog(this, "Waiting for response", "Info",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
@@ -157,7 +157,6 @@ public class NetworkPanel extends JPanel {
 
     public void acceptChallengeEvent(){
         try {
-
             this.client.clientThread.dataOutputStream.writeUTF("<!ACCEPT_CHALLENGE!> " + this.client.name);
             this.client.clientThread.initialateColor(-1);
         } catch (Exception e) {
@@ -166,6 +165,10 @@ public class NetworkPanel extends JPanel {
     }
 
     public void refuseChallengeEvent(){
-
+        try {
+            this.client.clientThread.dataOutputStream.writeUTF("<!REFUSE_CHALLENGE!> " + this.client.name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

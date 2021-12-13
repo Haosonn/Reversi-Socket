@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ClientThread extends Thread{
     private Client father;
-    boolean flag = true;
+    public boolean flag = true;
 
     public DataOutputStream dataOutputStream;
     public DataInputStream dataInputStream;
@@ -17,9 +17,7 @@ public class ClientThread extends Thread{
         try{
             dataInputStream = new DataInputStream(father.socket.getInputStream());
             dataOutputStream = new DataOutputStream(father.socket.getOutputStream());
-
             String name = father.name;
-
             dataOutputStream.writeUTF(name);
         } catch (Exception e){
             e.printStackTrace();
@@ -32,9 +30,14 @@ public class ClientThread extends Thread{
             try{
                 String msg = dataInputStream.readUTF().trim();
                 System.out.println(msg);
-                if(msg.equals("Welcome")) continue;
+                if(msg.equals("<!REPEATED_NAME!>")) {
+                    Client.mainFrame.repeatName();
+                }
                 else if(msg.startsWith("<!ACCEPT_CHALLENGE!>")){
                     this.initialateColor(1);
+                }
+                else if(msg.startsWith("<!REFUSE_CHALLENGE!>")){
+                    Client.mainFrame.receiveRefuseChallengeMsg(msg);
                 }
                 else if(msg.startsWith("<!UNDOREQUEST!>")){
                     this.undoRequest();
@@ -53,7 +56,7 @@ public class ClientThread extends Thread{
                 else if(msg.startsWith("<!CHALLENGE!>")){
                     Client.mainFrame.getChallengeRequest(msg);
                 }
-                else{
+                else if(msg.startsWith("<!MOVE!>")){
                     Client.mainFrame.controller.readData(msg);
                     this.father.canMove = true;
                     Client.mainFrame.repaint();

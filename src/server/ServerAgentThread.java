@@ -20,11 +20,17 @@ public class ServerAgentThread extends Thread{
         try{
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            //dataOutputStream.writeUTF(String.format("<!COLOR!> %d",father.onlineList.size()));
             name = dataInputStream.readUTF().trim();
+            Vector v = this.father.onlineList;
+            for (int i = 0; i < v.size(); i++) {
+                ServerAgentThread tempSat = (ServerAgentThread) v.get(i);
+                if(tempSat.name.equals(name)) {
+                    dataOutputStream.writeUTF("<!REPEATED_NAME!>");
+                    return;
+                    }
+                }
             this.father.onlineList.add(this);
             this.father.serverFrame.refreshList();
-            Vector v = this.father.onlineList;
             String msg = "<!NAME_LIST!>";
             msg += String.format(" %s",String.valueOf(v.size()));
             for (int i = 0; i < v.size(); i++) {
@@ -55,7 +61,14 @@ public class ServerAgentThread extends Thread{
                             break;
                         }
                     }
-                    tempSat.dataOutputStream.writeUTF(msg);
+                    else if(msg.startsWith("<!CHALLENGE!>")){
+                        if(msg.split(" ")[1].equals(tempSat.name)){
+                            tempSat.dataOutputStream.writeUTF(msg);
+                            break;
+                        }
+                    }
+                    else
+                        tempSat.dataOutputStream.writeUTF(msg);
                 }
                 System.out.println(msg);
 
