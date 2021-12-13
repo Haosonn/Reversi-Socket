@@ -30,7 +30,7 @@ public class MenuBar extends JMenuBar {
         item.addActionListener(e -> {
             System.out.println("click load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            if(filePath.length() == 0) return;
+            if (filePath.length() == 0) return;
             GameFrame.controller.readFileData(filePath);
         });
         menu.add(item);
@@ -39,7 +39,7 @@ public class MenuBar extends JMenuBar {
         item.addActionListener(e -> {
             System.out.println("click save Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            if(filePath.length() == 0) return;
+            if (filePath.length() == 0) return;
             GameFrame.controller.writeDataToFile(filePath);
         });
         menu.add(item);
@@ -61,7 +61,7 @@ public class MenuBar extends JMenuBar {
         JMenuItem item = new JMenuItem("undo");
         item.addActionListener(e -> {
             System.out.println("click undo Btn");
-            if(mainframe.controller.client.onlineMode) mainframe.controller.undoRequest();
+            if (mainframe.controller.client.onlineMode) mainframe.controller.undoRequest();
             else mainframe.controller.undo();
             repaint();
         });
@@ -181,6 +181,8 @@ public class MenuBar extends JMenuBar {
         whiteSlider.setMajorTickSpacing(1);
         blackSlider.setPaintTicks(true);
         whiteSlider.setPaintTicks(true);
+        blackSlider.setPaintLabels(true);
+        whiteSlider.setPaintLabels(true);
         blackSlider.addChangeListener(e -> {
             GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
             GameFrame.controller.setBlackDeep(blackSlider.getValue());
