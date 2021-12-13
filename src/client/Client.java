@@ -13,7 +13,6 @@ public class Client {
     public Socket socket;
     public ClientThread clientThread;
     public String name;
-    public String oppositeName;
     public static GameFrame mainFrame;
     public int color;
     public boolean canMove;

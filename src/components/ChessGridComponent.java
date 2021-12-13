@@ -37,7 +37,7 @@ public class ChessGridComponent extends BasicComponent {
         if (GameFrame.controller.canClick(row, col) || GameFrame.controller.isCheatingBtnOn()) {
 
             this.reminder = false;
-
+            GameFrame.controller.setOnePiece(row, col);
             GameFrame.controller.updateScore();
             GameFrame.controller.swapPlayer();
             if (!GameFrame.controller.canClick()) {
@@ -53,7 +53,6 @@ public class ChessGridComponent extends BasicComponent {
             GameFrame.controller.addToHistory();
         }
         repaint();
-//        }
     }
 
 

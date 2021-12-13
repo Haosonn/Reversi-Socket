@@ -37,7 +37,7 @@ public class GameController {
 
     private int blackScore;
     private int whiteScore;
-    private boolean cheatingBtnOn = true;
+    private boolean cheatingBtnOn = false;
 
     private ArrayList<GameRecord> gameHistory = new ArrayList();
 
@@ -320,6 +320,7 @@ public class GameController {
         String info = infoTosend.toString();
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> " + info);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -336,6 +337,9 @@ public class GameController {
         return tempChessPiece;
     }
 
+    public void setOnePiece(int row,int col){
+        gamePanel.getChessGrids(row,col).setChessPiece(this.currentPlayer);
+    }
     public int getBlackScore() {
         return this.blackScore;
     }

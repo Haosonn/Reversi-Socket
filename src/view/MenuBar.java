@@ -47,6 +47,9 @@ public class MenuBar extends JMenuBar {
 
         JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem("cheating mode");
 
+        cbMenuItem.addActionListener(e -> {
+            GameFrame.controller.setCheatingBtnOn(!GameFrame.controller.isCheatingBtnOn());
+        });
 
 
         menu.add(cbMenuItem);

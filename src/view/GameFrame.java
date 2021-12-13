@@ -7,6 +7,7 @@ import model.ChessPiece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Vector;
 
 public class GameFrame extends JFrame {
@@ -127,8 +128,9 @@ public class GameFrame extends JFrame {
 
     }
 
-    public void getChallengeRequest(String msg){
+    public void getChallengeRequest(String msg) throws IOException {
         if(!msg.split(" ")[1].equals(controller.client.name)) return;
+        controller.client.clientThread.dataOutputStream.writeUTF("<!OPPOSITE_NAME!> " + msg.split(" ")[2]);
         JOptionPane.showMessageDialog(this, String.format("%s challenges you!\nDo you agree his(her) request?", msg.split(" ")[2]), "Info",
                 JOptionPane.INFORMATION_MESSAGE);
         this.networkPanel.acceptChallengeButton.setEnabled(true);

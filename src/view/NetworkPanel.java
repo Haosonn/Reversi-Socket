@@ -16,7 +16,7 @@ public class NetworkPanel extends JPanel {
     JLabel portLabel = new JLabel("Port");
     JLabel ipLabel = new JLabel("IP Address");
     JLabel nameLabel = new JLabel("Name");
-    JTextField nameTextField = new JTextField("Enter your name");
+    JTextField nameTextField = new JTextField("Enter");
     JTextField portTextField = new JTextField("9090");
     JTextField ipTextField = new JTextField("localhost");
     JButton connectButton = new JButton("Connect");
@@ -124,6 +124,7 @@ public class NetworkPanel extends JPanel {
             this.ipTextField.setEnabled(false);
             this.portTextField.setEnabled(false);
             this.disconnectButton.setEnabled(true);
+            Client.mainFrame.restart();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,8 +145,7 @@ public class NetworkPanel extends JPanel {
         else {
             String opposite = (String) this.players.getSelectedItem();
             try {
-
-                this.client.oppositeName = opposite;
+                this.client.clientThread.dataOutputStream.writeUTF(String.format("<!OPPOSITE_NAME!> %s", opposite));
                 this.client.clientThread.dataOutputStream.writeUTF(String.format("<!CHALLENGE!> %s %s", opposite, this.client.name));
                 JOptionPane.showMessageDialog(this, "Waiting for response", "Info",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -159,6 +159,8 @@ public class NetworkPanel extends JPanel {
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!ACCEPT_CHALLENGE!> " + this.client.name);
             this.client.clientThread.initialateColor(-1);
+            this.acceptChallengeButton.setEnabled(false);
+            this.refuseChallengeButton.setEnabled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
