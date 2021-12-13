@@ -15,7 +15,6 @@ public class ChessGridComponent extends BasicComponent {
     public static Color secondaryColor = Color.LIGHT_GRAY;
     private Image black, white;
 
-    private Image blackChess, whiteChess;
     private ChessPiece chessPiece;
     private int row;
     private int col;
