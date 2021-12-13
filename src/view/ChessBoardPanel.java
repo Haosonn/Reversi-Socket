@@ -26,7 +26,7 @@ public class ChessBoardPanel extends JPanel
 
     public ChessBoardPanel(int width, int height)
     {
-        image = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\Board1.png").getImage();
+        image = new ImageIcon("resources/Board1.png").getImage();
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);

@@ -80,8 +80,8 @@ public class ChessGridComponent extends BasicComponent {
     public void drawPiece(Graphics g) {
 //        g.setColor(gridColor);
 //        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
-        blackChess = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\Black.png").getImage();
-        whiteChess = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\White.png").getImage();
+        blackChess = new ImageIcon("resources/Black.png").getImage();
+        whiteChess = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
 //            g.setColor(chessPiece.getColor());
 //            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
