@@ -83,12 +83,18 @@ public class MenuBar extends JMenuBar {
         rb2.addActionListener(e -> {
             System.out.println("choose board 2");
             ChessGridComponent.isCustom = false;
+            Image image = new ImageIcon("Reversi-Socket/resources/Board2.png").getImage();
+            GameFrame.controller.getGamePanel().setImage(image);
+            GameFrame.controller.getGamePanel().repaint();
         });
 
         JRadioButton rb3 = new JRadioButton("board 3");
         rb3.addActionListener(e -> {
             System.out.println("choose board 3");
             ChessGridComponent.isCustom = false;
+            Image image = new ImageIcon("Reversi-Socket/resources/Board3.png").getImage();
+            GameFrame.controller.getGamePanel().setImage(image);
+            GameFrame.controller.getGamePanel().repaint();
         });
 
         JRadioButton rb4 = new JRadioButton("custom board");
