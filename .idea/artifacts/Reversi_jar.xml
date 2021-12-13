@@ -2,9 +2,6 @@
   <artifact type="jar" name="Reversi:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Reversi_jar</output-path>
     <root id="archive" name="Reversi.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/../../META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="Reversi" />
     </root>
   </artifact>

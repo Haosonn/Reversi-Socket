@@ -1,6 +1,7 @@
 package controller;
 
 import ai.EasyAI;
+import ai.HardAI;
 import ai.MediumAI;
 import client.Client;
 import model.ChessPiece;
@@ -19,6 +20,7 @@ public class GameController {
 
     public EasyAI easyAI;
     public MediumAI mediumAI;
+    public HardAI hardAI;
     public Client client;
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
@@ -52,10 +54,12 @@ public class GameController {
         this.client = client;
         if(client.aiMode)
         {
-            easyAI = new EasyAI();
-            easyAI.start();
-            mediumAI = new MediumAI();
-            mediumAI.start();
+//            easyAI = new EasyAI();
+//            easyAI.start();
+//            mediumAI = new MediumAI();
+//            mediumAI.start();
+            hardAI = new HardAI();
+            hardAI.start();
         }
 
     }
@@ -201,12 +205,12 @@ public class GameController {
             }
         }
         if (this.blackScore > this.whiteScore) {
-            EndDialog endDialog = new EndDialog(1);
+            //EndDialog endDialog = new EndDialog(1);
             statusPanel.setGameResult("BLACK WIN");
         } else {
             if (this.whiteScore > this.blackScore) {
                 statusPanel.setGameResult("WHITE WIN");
-                EndDialog endDialog = new EndDialog(-1);
+                //EndDialog endDialog = new EndDialog(-1);
             } else {
                 statusPanel.setGameResult("DRAW");
             }
@@ -287,6 +291,8 @@ public class GameController {
     public int getWhiteScore() {
         return this.whiteScore;
     }
+
+
     //    public void loadToGame(List<String> fileData) {
 //        for (int i = 0; i < fileData.size(); i++) {
 //            this.gamePanel.getChessGrids(loadRow(fileData.get(i)), loadCol(fileData.get(i))).onMouseClicked();

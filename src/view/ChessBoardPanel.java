@@ -18,8 +18,15 @@ public class ChessBoardPanel extends JPanel
         return chessGrids[i][j];
     }
 
+    private Image image;
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public ChessBoardPanel(int width, int height)
     {
+        image = new ImageIcon("D:\\Project\\Reversi-Socket\\Reversi-Socket\\resources\\Board1.png").getImage();
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
@@ -94,8 +101,9 @@ public class ChessBoardPanel extends JPanel
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+//        g.setColor(Color.BLACK);
+//        g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
 
     public boolean checkDirection(int row, int col, ChessPiece currentPlayer, int rowDir, int colDir)
