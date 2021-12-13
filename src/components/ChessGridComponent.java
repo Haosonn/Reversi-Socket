@@ -78,8 +78,8 @@ public class ChessGridComponent extends BasicComponent {
             g.setColor(none);
         }
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        black = new ImageIcon("Project/src/mapping/Black.png").getImage();
-        white = new ImageIcon("Project/src/mapping/White.png").getImage();
+        black = new ImageIcon("resources/Black.png").getImage();
+        white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
             if (this.chessPiece.getColor() == Color.BLACK) {
                 g.drawImage(black, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
