@@ -1,6 +1,7 @@
 package animation;
 
 import components.ChessGridComponent;
+import view.GameFrame;
 
 public class ThreadForNewPiece extends Thread {
     private ChessGridComponent chessGrid;
@@ -11,7 +12,7 @@ public class ThreadForNewPiece extends Thread {
 
     @Override
     public void run() {
-        while (chessGrid.isNewPiece()) {
+        while (chessGrid.isNewPiece() && !GameFrame.controller.gameEnd) {
             for (int i = 1; i < 10; i++) {
                 chessGrid.setNewPieceAlpha(chessGrid.getNewPieceAlpha() - 10);
                 chessGrid.repaint();

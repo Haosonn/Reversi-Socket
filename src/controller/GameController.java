@@ -26,6 +26,7 @@ public class GameController {
     private boolean whiteAIModeOn = false;
     private int blackDeep = 3;
     private int whiteDeep = 3;
+    public boolean gameEnd = false;
 
     public boolean isBlackAIModeOn() {
         return blackAIModeOn;
@@ -234,13 +235,14 @@ public class GameController {
     }
 
     public void endGame() {
-        if(threadForBlackAI != null && threadForBlackAI.isAlive())  threadForBlackAI.exit = true;
-        if(threadForWhiteAI != null && threadForWhiteAI.isAlive())  threadForWhiteAI.exit = true;
+        if (threadForBlackAI != null && threadForBlackAI.isAlive()) threadForBlackAI.exit = true;
+        if (threadForWhiteAI != null && threadForWhiteAI.isAlive()) threadForWhiteAI.exit = true;
+        gameEnd = true;
         if (this.blackScore > this.whiteScore)
-            JOptionPane.showMessageDialog(Client.mainFrame,"BLACK WIN");
-        else if(this.whiteScore > this.blackScore)
-            JOptionPane.showMessageDialog(Client.mainFrame,"WHITE WIN");
-        else JOptionPane.showMessageDialog(Client.mainFrame,"DRAW");
+            JOptionPane.showMessageDialog(Client.mainFrame, "BLACK WIN");
+        else if (this.whiteScore > this.blackScore)
+            JOptionPane.showMessageDialog(Client.mainFrame, "WHITE WIN");
+        else JOptionPane.showMessageDialog(Client.mainFrame, "DRAW");
         if (this.blackScore > this.whiteScore) {
             statusPanel.setGameResult("BLACK WIN");
         } else {
@@ -322,9 +324,10 @@ public class GameController {
         return tempChessPiece;
     }
 
-    public void setOnePiece(int row,int col){
-        gamePanel.getChessGrids(row,col).setChessPiece(this.currentPlayer);
+    public void setOnePiece(int row, int col) {
+        gamePanel.getChessGrids(row, col).setChessPiece(this.currentPlayer);
     }
+
     public int getBlackScore() {
         return this.blackScore;
     }

@@ -185,12 +185,18 @@ public class MenuBar extends JMenuBar {
         whiteSlider.setMajorTickSpacing(1);
         blackSlider.setPaintTicks(true);
         whiteSlider.setPaintTicks(true);
+        blackSlider.setPaintLabels(true);
+        whiteSlider.setPaintLabels(true);
         blackSlider.addChangeListener(e -> {
-            GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+            if (GameFrame.controller.getThreadForBlackAI() != null) {
+                GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+            }
             GameFrame.controller.setBlackDeep(blackSlider.getValue());
         });
         whiteSlider.addChangeListener(e -> {
-            GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            if (GameFrame.controller.getThreadForBlackAI() != null) {
+                GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            }
             GameFrame.controller.setWhiteDeep(whiteSlider.getValue());
         });
 
