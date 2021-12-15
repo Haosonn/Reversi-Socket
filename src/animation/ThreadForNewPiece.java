@@ -12,8 +12,9 @@ public class ThreadForNewPiece extends Thread {
 
     @Override
     public void run() {
+        chessGrid.setNewPieceAlpha(100);
         while (chessGrid.isNewPiece() && !GameFrame.controller.gameEnd) {
-            for (int i = 1; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 chessGrid.setNewPieceAlpha(chessGrid.getNewPieceAlpha() - 10);
                 chessGrid.repaint();
                 try {
@@ -30,6 +31,5 @@ public class ThreadForNewPiece extends Thread {
                 }
             }
         }
-        chessGrid.setNewPieceAlpha(100);
     }
 }
