@@ -1,6 +1,7 @@
 package view;
 
 
+import ai.ThreadForAI;
 import client.Client;
 import controller.GameController;
 import model.ChessPiece;
@@ -60,6 +61,16 @@ public class GameFrame extends JFrame {
         this.chessBoardPanel.findAllMoves(ChessPiece.BLACK);
         controller.resetCurrentPlayer();
         controller.addToHistory();
+        if (GameFrame.controller.isBlackAIModeOn()) {
+            GameFrame.controller.setThreadForBlackAI(new ThreadForAI(1, controller.getBlackDeep()));
+            GameFrame.controller.getThreadForBlackAI().start();
+            System.out.println("Black AI On");
+        }
+        if (GameFrame.controller.isWhiteAIModeOn()) {
+            GameFrame.controller.setThreadForWhiteAI(new ThreadForAI(-1, controller.getWhiteDeep()));
+            GameFrame.controller.getThreadForWhiteAI().start();
+            System.out.println("White AI On");
+        }
         repaint();
     }
 
