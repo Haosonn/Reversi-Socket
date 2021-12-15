@@ -73,6 +73,7 @@ public class ClientThread extends Thread{
                         GameFrame.controller.setBlackScore(0);
                         GameFrame.controller.setWhiteScore(64);
                     }
+                    Client.mainFrame.setChallengeBtnOn();
                     GameFrame.controller.endGame();
                 }
 

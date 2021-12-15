@@ -63,12 +63,20 @@ public class ServerAgentThread extends Thread{
                     if (msg.startsWith("<!MOVE!>") || msg.startsWith("<!UNDO_REQUEST!>") || msg.startsWith("<!AGREEUNDO!>") || msg.startsWith("<!DISAGREEUNDO!>")) {
                         if(tempSat.name.equals(oppositeName)){
                             tempSat.dataOutputStream.writeUTF(msg);
-                            //break;
+                            break;
                         }
                     }
                     else if(msg.startsWith("<!CHALLENGE!>")){
                         if(msg.split(" ")[1].equals(tempSat.name)){
                             tempSat.dataOutputStream.writeUTF(msg);
+                            break;
+                        }
+                    }
+                    else if(msg.startsWith("<!SURRENDER!>")){
+                        if(tempSat.name.equals(oppositeName)){
+                            tempSat.dataOutputStream.writeUTF(msg);
+                            oppositeName = "!@#$%^&*";
+                            tempSat.oppositeName = "*&^%$$#";
                             break;
                         }
                     }

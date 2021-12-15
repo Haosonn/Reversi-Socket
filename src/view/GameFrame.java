@@ -128,4 +128,8 @@ public class GameFrame extends JFrame {
         }
 
     }
+
+    public void setChallengeBtnOn(){
+        this.networkPanel.challengeButton.setEnabled(true);
+    }
 }

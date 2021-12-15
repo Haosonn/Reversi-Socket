@@ -198,6 +198,7 @@ public class NetworkPanel extends JPanel {
                 GameFrame.controller.setWhiteScore(0);
             }
             GameFrame.controller.endGame();
+            this.challengeButton.setEnabled(true);
             try {
                 this.client.clientThread.dataOutputStream.writeUTF("<!SURRENDER!> " + this.client.name);
             } catch (Exception e) {
