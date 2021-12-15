@@ -190,14 +190,14 @@ public class GameController {
 
     public void readData(String data) {
         data = data.substring(9);
-        List<String> fileData = new ArrayList<>();
-        fileData.add(data);
-        GameRecord gameRecord = new GameRecord();
-        gameRecord.copyToGame(this.gamePanel, this, fileData);
-        statusPanel.setScoreText(this.blackScore, this.whiteScore);
-        statusPanel.setPlayerText(currentPlayer.name());
-        gamePanel.findAllMoves(currentPlayer);
-        this.addToHistory();
+        int row = Integer.parseInt(data.split(" ")[0]);
+        int col = Integer.parseInt(data.split(" ")[1]);
+
+        GameFrame.controller.getGamePanel().getChessGrids(row, col).onMouseClicked();
+//        statusPanel.setScoreText(this.blackScore, this.whiteScore);
+//        statusPanel.setPlayerText(currentPlayer.name());
+//        gamePanel.findAllMoves(currentPlayer);
+//        this.addToHistory();
     }
 
     public void writeDataToFile(String filePath) {
@@ -301,10 +301,8 @@ public class GameController {
         this.client.canMove = this.client.canMove ? false : true;
     }
 
-    public void sendInfo() {
-        GameRecord infoTosend = new GameRecord();
-        setThisStep(infoTosend);
-        String info = infoTosend.toString();
+    public void sendInfo(int row, int col) {
+        String info = String.format("%s %s",String.valueOf(row), String.valueOf(col));
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> " + info);
 
