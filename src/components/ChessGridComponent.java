@@ -1,5 +1,6 @@
 package components;
 
+import animation.ThreadForNewPiece;
 import model.*;
 import view.GameFrame;
 
@@ -20,6 +21,17 @@ public class ChessGridComponent extends BasicComponent {
     private boolean reminder;
     private boolean newPiece;
     private Image black, white;
+
+    private int newPieceAlpha = 100;
+    private ThreadForNewPiece threadForNewPiece;
+
+    public int getNewPieceAlpha() {
+        return newPieceAlpha;
+    }
+
+    public void setNewPieceAlpha(int newPieceAlpha) {
+        this.newPieceAlpha = newPieceAlpha;
+    }
 
     public void setNewPiece(boolean newPiece) {
         this.newPiece = newPiece;
@@ -44,6 +56,8 @@ public class ChessGridComponent extends BasicComponent {
             GameFrame.controller.getGamePanel().getChessGrids(GameFrame.controller.getGamePanel().getNewPiece()[0], GameFrame.controller.getGamePanel().getNewPiece()[1]).setNewPiece(false);
             GameFrame.controller.getGamePanel().setNewPiece(row, col);
             this.newPiece = true;
+            this.threadForNewPiece = new ThreadForNewPiece(this);
+            this.threadForNewPiece.start();
             GameFrame.controller.updateScore();
             GameFrame.controller.swapPlayer();
             if (!GameFrame.controller.canClick()) {
@@ -78,6 +92,10 @@ public class ChessGridComponent extends BasicComponent {
         return col;
     }
 
+    public boolean isNewPiece() {
+        return newPiece;
+    }
+
     public void drawPiece(Graphics g) {
         g.setColor(((this.col + this.row) % 2 != 0) ? primaryColor : secondaryColor);
         if (!isCustom) {
@@ -102,7 +120,7 @@ public class ChessGridComponent extends BasicComponent {
             g.fillOval((gridSize - chessSize - 4) / 2, (gridSize - chessSize - 4) / 2, chessSize + 4, chessSize + 4);
         }
         if (this.newPiece) {
-            g.setColor(new Color(255, 0, 0, 50));
+            g.setColor(new Color(255, 0, 0, newPieceAlpha));
             g.fillOval((gridSize - chessSize / 2) / 2, (gridSize - chessSize / 2) / 2, chessSize / 2, chessSize / 2);
         }
     }
