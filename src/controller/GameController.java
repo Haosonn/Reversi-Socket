@@ -26,6 +26,7 @@ public class GameController {
     private boolean whiteAIModeOn = false;
     private int blackDeep = 3;
     private int whiteDeep = 3;
+    public boolean gameEnd = false;
 
     public boolean isBlackAIModeOn() {
         return blackAIModeOn;
@@ -189,14 +190,14 @@ public class GameController {
 
     public void readData(String data) {
         data = data.substring(9);
-        List<String> fileData = new ArrayList<>();
-        fileData.add(data);
-        GameRecord gameRecord = new GameRecord();
-        gameRecord.copyToGame(this.gamePanel, this, fileData);
-        statusPanel.setScoreText(this.blackScore, this.whiteScore);
-        statusPanel.setPlayerText(currentPlayer.name());
-        gamePanel.findAllMoves(currentPlayer);
-        this.addToHistory();
+        int row = Integer.parseInt(data.split(" ")[0]);
+        int col = Integer.parseInt(data.split(" ")[1]);
+
+        GameFrame.controller.getGamePanel().getChessGrids(row, col).onMouseClicked();
+//        statusPanel.setScoreText(this.blackScore, this.whiteScore);
+//        statusPanel.setPlayerText(currentPlayer.name());
+//        gamePanel.findAllMoves(currentPlayer);
+//        this.addToHistory();
     }
 
     public void writeDataToFile(String filePath) {
@@ -234,13 +235,14 @@ public class GameController {
     }
 
     public void endGame() {
-        if(threadForBlackAI.isAlive())  threadForBlackAI.exit = true;
-        if(threadForWhiteAI.isAlive())  threadForWhiteAI.exit = true;
+        if (threadForBlackAI != null && threadForBlackAI.isAlive()) threadForBlackAI.exit = true;
+        if (threadForWhiteAI != null && threadForWhiteAI.isAlive()) threadForWhiteAI.exit = true;
+        gameEnd = true;
         if (this.blackScore > this.whiteScore)
-            JOptionPane.showMessageDialog(Client.mainFrame,"BLACK WIN");
-        else if(this.whiteScore > this.blackScore)
-            JOptionPane.showMessageDialog(Client.mainFrame,"WHITE WIN");
-        else JOptionPane.showMessageDialog(Client.mainFrame,"DRAW");
+            JOptionPane.showMessageDialog(Client.mainFrame, "BLACK WIN");
+        else if (this.whiteScore > this.blackScore)
+            JOptionPane.showMessageDialog(Client.mainFrame, "WHITE WIN");
+        else JOptionPane.showMessageDialog(Client.mainFrame, "DRAW");
         if (this.blackScore > this.whiteScore) {
             statusPanel.setGameResult("BLACK WIN");
         } else {
@@ -299,10 +301,8 @@ public class GameController {
         this.client.canMove = this.client.canMove ? false : true;
     }
 
-    public void sendInfo() {
-        GameRecord infoTosend = new GameRecord();
-        setThisStep(infoTosend);
-        String info = infoTosend.toString();
+    public void sendInfo(int row, int col) {
+        String info = String.format("%s %s",String.valueOf(row), String.valueOf(col));
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> " + info);
 
@@ -322,9 +322,10 @@ public class GameController {
         return tempChessPiece;
     }
 
-    public void setOnePiece(int row,int col){
-        gamePanel.getChessGrids(row,col).setChessPiece(this.currentPlayer);
+    public void setOnePiece(int row, int col) {
+        gamePanel.getChessGrids(row, col).setChessPiece(this.currentPlayer);
     }
+
     public int getBlackScore() {
         return this.blackScore;
     }

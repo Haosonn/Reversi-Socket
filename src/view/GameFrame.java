@@ -1,6 +1,7 @@
 package view;
 
 
+import ai.ThreadForAI;
 import client.Client;
 import controller.GameController;
 import model.ChessPiece;
@@ -17,7 +18,7 @@ public class GameFrame extends JFrame {
     private NetworkPanel networkPanel;
 
 
-    public GameFrame(int frameWidth,int frameHeight, Client client) {
+    public GameFrame(int frameWidth, int frameHeight, Client client) {
 
 
         this.setTitle("2021F CS102A Project Reversi");
@@ -30,16 +31,16 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
 
-        chessBoardPanel = new ChessBoardPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.7));
-        chessBoardPanel.setLocation((this.getWidth()) / 10, (this.getHeight() - chessBoardPanel.getHeight()) / 3);
+        chessBoardPanel = new ChessBoardPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.8));
+        chessBoardPanel.setLocation((this.getWidth()) / 25, (this.getHeight()) / 12);
 
-        statusPanel = new StatusPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.1));
-        statusPanel.setLocation((this.getWidth()) / 10, 0);
+        statusPanel = new StatusPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.08));
+        statusPanel.setLocation((this.getWidth()) / 8, 0);
         controller = new GameController(chessBoardPanel, statusPanel, client);
         controller.setGamePanel(chessBoardPanel);
 
         networkPanel = new NetworkPanel((int) (this.getWidth() * 0.2), (int) (this.getHeight()), client);
-        networkPanel.setLocation( (7 * this.getWidth()) / 10, 0);
+        networkPanel.setLocation((15 * this.getWidth()) / 20, (this.getHeight()) / 10);
         this.add(chessBoardPanel);
         this.add(statusPanel);
         this.add(networkPanel);
@@ -60,42 +61,54 @@ public class GameFrame extends JFrame {
         this.chessBoardPanel.findAllMoves(ChessPiece.BLACK);
         controller.resetCurrentPlayer();
         controller.addToHistory();
+        controller.gameEnd = false;
+        if (GameFrame.controller.isBlackAIModeOn()) {
+            GameFrame.controller.setThreadForBlackAI(new ThreadForAI(1, controller.getBlackDeep()));
+            GameFrame.controller.getThreadForBlackAI().start();
+            System.out.println("Black AI On");
+        }
+        if (GameFrame.controller.isWhiteAIModeOn()) {
+            GameFrame.controller.setThreadForWhiteAI(new ThreadForAI(-1, controller.getWhiteDeep()));
+            GameFrame.controller.getThreadForWhiteAI().start();
+            System.out.println("White AI On");
+        }
         repaint();
     }
 
-    public void refreshPlayerList(String msg){
+    public void refreshPlayerList(String msg) {
         Vector v = new Vector();
         String[] info = msg.split(" ");
         int cnt = Integer.parseInt(info[1]);
         for (int i = 1; i <= cnt; i++) {
-            if(controller.client.name.equals(info[i+1])) continue;
-            v.add(info[i+1]);
+            if (controller.client.name.equals(info[i + 1])) continue;
+            v.add(info[i + 1]);
         }
         this.networkPanel.players.setModel(new DefaultComboBoxModel(v));
 
     }
 
     public void getChallengeRequest(String msg) throws IOException {
-        if(!msg.split(" ")[1].equals(controller.client.name)) return;
+        if (!msg.split(" ")[1].equals(controller.client.name)) return;
         controller.client.clientThread.dataOutputStream.writeUTF("<!OPPOSITE_NAME!> " + msg.split(" ")[2]);
         JOptionPane.showMessageDialog(this, String.format("%s challenges you!\nDo you agree his(her) request?", msg.split(" ")[2]), "Info",
                 JOptionPane.INFORMATION_MESSAGE);
         this.networkPanel.acceptChallengeButton.setEnabled(true);
         this.networkPanel.refuseChallengeButton.setEnabled(true);
     }
+
     public ChessBoardPanel getChessBoardPanel() {
         return this.chessBoardPanel;
     }
 
-    public void receiveRefuseChallengeMsg(String msg){
+    public void receiveRefuseChallengeMsg(String msg) {
         JOptionPane.showMessageDialog(this, String.format("%s refuses your challenge!", msg.split(" ")[1]), "Info",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void repeatName(){
+    public void repeatName() {
         JOptionPane.showMessageDialog(this, "Your name is used！\n Please choose another one!",
                 "Error", JOptionPane.ERROR_MESSAGE);
-        try{
+        try {
             controller.client.clientThread.dataOutputStream.close();
             controller.client.clientThread.dataInputStream.close();
             this.networkPanel.ipTextField.setEnabled(true);
@@ -110,7 +123,7 @@ public class GameFrame extends JFrame {
             controller.client.socket = null;
             controller.client.clientThread.flag = false;
             controller.client.clientThread = null;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

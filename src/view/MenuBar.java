@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MenuBar extends JMenuBar {
+
     public MenuBar(GameFrame mainframe) {
         add(createGameMenu(mainframe));
         add(createEditMenu(mainframe));
@@ -30,7 +31,7 @@ public class MenuBar extends JMenuBar {
         item.addActionListener(e -> {
             System.out.println("click load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            if(filePath.length() == 0) return;
+            if (filePath.length() == 0) return;
             GameFrame.controller.readFileData(filePath);
         });
         menu.add(item);
@@ -39,7 +40,7 @@ public class MenuBar extends JMenuBar {
         item.addActionListener(e -> {
             System.out.println("click save Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
-            if(filePath.length() == 0) return;
+            if (filePath.length() == 0) return;
             GameFrame.controller.writeDataToFile(filePath);
         });
         menu.add(item);
@@ -63,7 +64,7 @@ public class MenuBar extends JMenuBar {
         JMenuItem item = new JMenuItem("undo");
         item.addActionListener(e -> {
             System.out.println("click undo Btn");
-            if(mainframe.controller.client.onlineMode) mainframe.controller.undoRequest();
+            if (mainframe.controller.client.onlineMode) mainframe.controller.undoRequest();
             else mainframe.controller.undo();
             repaint();
         });
@@ -80,7 +81,7 @@ public class MenuBar extends JMenuBar {
         rb1.addActionListener(e -> {
             System.out.println("choose board 1");
             ChessGridComponent.isCustom = false;
-            Image image = new ImageIcon("Reversi-Socket/resources/Board1.png").getImage();
+            Image image = new ImageIcon("resources/Board1.png").getImage();
             GameFrame.controller.getGamePanel().setImage(image);
             GameFrame.controller.getGamePanel().repaint();
         });
@@ -89,12 +90,18 @@ public class MenuBar extends JMenuBar {
         rb2.addActionListener(e -> {
             System.out.println("choose board 2");
             ChessGridComponent.isCustom = false;
+            Image image = new ImageIcon("resources/Board2.png").getImage();
+            GameFrame.controller.getGamePanel().setImage(image);
+            GameFrame.controller.getGamePanel().repaint();
         });
 
         JRadioButton rb3 = new JRadioButton("board 3");
         rb3.addActionListener(e -> {
             System.out.println("choose board 3");
             ChessGridComponent.isCustom = false;
+            Image image = new ImageIcon("resources/Board3.png").getImage();
+            GameFrame.controller.getGamePanel().setImage(image);
+            GameFrame.controller.getGamePanel().repaint();
         });
 
         JRadioButton rb4 = new JRadioButton("custom board");
@@ -178,12 +185,18 @@ public class MenuBar extends JMenuBar {
         whiteSlider.setMajorTickSpacing(1);
         blackSlider.setPaintTicks(true);
         whiteSlider.setPaintTicks(true);
+        blackSlider.setPaintLabels(true);
+        whiteSlider.setPaintLabels(true);
         blackSlider.addChangeListener(e -> {
-            GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+            if (GameFrame.controller.getThreadForBlackAI() != null) {
+                GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+            }
             GameFrame.controller.setBlackDeep(blackSlider.getValue());
         });
         whiteSlider.addChangeListener(e -> {
-            GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            if (GameFrame.controller.getThreadForBlackAI() != null) {
+                GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            }
             GameFrame.controller.setWhiteDeep(whiteSlider.getValue());
         });
 

@@ -13,13 +13,16 @@ public abstract class BasicComponent extends JComponent {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                if (!aiModeOn()) {
+                if (!aiModeOn() && !onlineModeOn()) {
                     super.mousePressed(e);
                     onMouseClicked();
                 }
             }
         });
     }
+
+
+
 
     public abstract void onMouseClicked();
 
@@ -28,6 +31,16 @@ public abstract class BasicComponent extends JComponent {
             return true;
         }
         if (GameFrame.controller.getCurrentPlayer() == ChessPiece.WHITE && GameFrame.controller.isWhiteAIModeOn()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean onlineModeOn(){
+        if (GameFrame.controller.getCurrentPlayer() == ChessPiece.BLACK && GameFrame.controller.client.color == -1) {
+            return true;
+        }
+        if (GameFrame.controller.getCurrentPlayer() == ChessPiece.WHITE && GameFrame.controller.client.color == 1) {
             return true;
         }
         return false;
