@@ -13,6 +13,16 @@ public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
     private ChessGridComponent[][] chessGrids;
     private boolean hasMove;
+    private int[] newPiece = {0, 0};
+
+    public int[] getNewPiece() {
+        return newPiece;
+    }
+
+    public void setNewPiece(int row, int col) {
+        this.newPiece[0] = row;
+        this.newPiece[1] = col;
+    }
 
     public ChessGridComponent getChessGrids(int i, int j) {
         return chessGrids[i][j];

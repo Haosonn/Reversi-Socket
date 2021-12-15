@@ -18,7 +18,12 @@ public class ChessGridComponent extends BasicComponent {
     private int row;
     private int col;
     private boolean reminder;
+    private boolean newPiece;
     private Image black, white;
+
+    public void setNewPiece(boolean newPiece) {
+        this.newPiece = newPiece;
+    }
 
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
@@ -36,6 +41,9 @@ public class ChessGridComponent extends BasicComponent {
 
             this.reminder = false;
             GameFrame.controller.setOnePiece(row, col);
+            GameFrame.controller.getGamePanel().getChessGrids(GameFrame.controller.getGamePanel().getNewPiece()[0], GameFrame.controller.getGamePanel().getNewPiece()[1]).setNewPiece(false);
+            GameFrame.controller.getGamePanel().setNewPiece(row, col);
+            this.newPiece = true;
             GameFrame.controller.updateScore();
             GameFrame.controller.swapPlayer();
             if (!GameFrame.controller.canClick()) {
@@ -86,13 +94,16 @@ public class ChessGridComponent extends BasicComponent {
             }
         }
         if (this.reminder) {
-            g.setColor(new Color(0, 0, 0, 15));
+            g.setColor(new Color(0, 0, 0, 10));
             g.fillOval((gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4);
-            g.setColor(new Color(0, 0, 0, 15));
+            g.setColor(new Color(0, 0, 0, 10));
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
             g.setColor(new Color(0, 0, 0, 50));
             g.fillOval((gridSize - chessSize - 4) / 2, (gridSize - chessSize - 4) / 2, chessSize + 4, chessSize + 4);
-
+        }
+        if (this.newPiece) {
+            g.setColor(new Color(255, 0, 0, 50));
+            g.fillOval((gridSize - chessSize / 2) / 2, (gridSize - chessSize / 2) / 2, chessSize / 2, chessSize / 2);
         }
     }
 
