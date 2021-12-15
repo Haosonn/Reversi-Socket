@@ -16,7 +16,7 @@ public class NetworkPanel extends JPanel {
     JLabel portLabel = new JLabel("Port");
     JLabel ipLabel = new JLabel("IP Address");
     JLabel nameLabel = new JLabel("Name");
-    JTextField nameTextField = new JTextField("Enter your name");
+    JTextField nameTextField = new JTextField("Enter");
     JTextField portTextField = new JTextField("9090");
     JTextField ipTextField = new JTextField("localhost");
     JButton connectButton = new JButton("Connect");
@@ -24,63 +24,70 @@ public class NetworkPanel extends JPanel {
     JButton challengeButton = new JButton("Challenge");
     JButton acceptChallengeButton = new JButton("Accept Challenge");
     JButton refuseChallengeButton = new JButton("Refuse Challenge");
+    JButton surrenderButton = new JButton("Surrender");
     JComboBox players = new JComboBox();
 
     public NetworkPanel(int width, int height, Client client){
         this.client = client;
         this.setSize(width, height);
         this.setLayout(null);
-        this.portLabel.setBounds(0, 50, 200, 100);
+        this.portLabel.setBounds(0, (int)(this.getHeight()*0.02), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
         this.portLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
         this.add(this.portLabel);
 
-        this.portTextField.setBounds(200, 50, 200, 100);
+        this.portTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.02), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
         this.portTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
         this.add(this.portTextField);
 
-        this.ipLabel.setBounds(0, 200, 200, 100);
+        this.ipLabel.setBounds(0, (int)(this.getHeight()*0.1), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
         this.ipLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
         this.add(this.ipLabel);
 
-        this.ipTextField.setBounds(200, 200, 200, 100);
-        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
+        this.ipTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.1), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
+        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.ipTextField);
 
-        this.nameLabel.setBounds(0, 400, 200, 100);
+        this.nameLabel.setBounds(0, (int)(this.getHeight()*0.18),(int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
         this.nameLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
         this.add(this.nameLabel);
 
-        this.nameTextField.setBounds(200, 400, 200, 100);
+        this.nameTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.18),(int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
         this.nameTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.add(this.nameTextField);
 
-        this.connectButton.setBounds(20, 600, 150, 100);
+        this.connectButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.26), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
         this.connectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.connectButton.addActionListener(new Listener());
         this.add(this.connectButton);
 
-        this.disconnectButton.setBounds(200, 600, 150, 100);
+        this.disconnectButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.26), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
         this.disconnectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.disconnectButton.addActionListener(new Listener());
         this.add(this.disconnectButton);
         this.disconnectButton.setEnabled(false);
 
-        this.players.setBounds(20,800,150,100);
+        this.players.setBounds((int)(this.getWidth()*0.01),(int)(this.getHeight()*0.34),(int)(this.getWidth()*0.32),(int)(this.getHeight()*0.05));
         this.players.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.add(this.players);
 
-        this.challengeButton.setBounds(20, 1000, 150, 100);
+        this.surrenderButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.34), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
+        this.surrenderButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.surrenderButton.addActionListener(new Listener());
+        this.add(this.surrenderButton);
+        this.surrenderButton.setEnabled(false);
+
+        this.challengeButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.42), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
         this.challengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.challengeButton.addActionListener(new Listener());
         this.add(this.challengeButton);
 
-        this.acceptChallengeButton.setBounds(20, 1200, 150, 100);
+        this.acceptChallengeButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.50), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
         this.acceptChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.acceptChallengeButton.addActionListener(new Listener());
         this.add(this.acceptChallengeButton);
         this.acceptChallengeButton.setEnabled(false);
 
-        this.refuseChallengeButton.setBounds(200, 1200, 150, 100);
+        this.refuseChallengeButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.50), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
         this.refuseChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
         this.refuseChallengeButton.addActionListener(new Listener());
         this.add(this.refuseChallengeButton);
@@ -107,6 +114,9 @@ public class NetworkPanel extends JPanel {
             else if(e.getSource() == refuseChallengeButton){
                 refuseChallengeEvent();
             }
+            else if(e.getSource() == surrenderButton){
+                surrenderEvent();
+            }
 
         }
     }
@@ -124,6 +134,7 @@ public class NetworkPanel extends JPanel {
             this.ipTextField.setEnabled(false);
             this.portTextField.setEnabled(false);
             this.disconnectButton.setEnabled(true);
+            Client.mainFrame.restart();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,8 +155,7 @@ public class NetworkPanel extends JPanel {
         else {
             String opposite = (String) this.players.getSelectedItem();
             try {
-
-                this.client.oppositeName = opposite;
+                this.client.clientThread.dataOutputStream.writeUTF(String.format("<!OPPOSITE_NAME!> %s", opposite));
                 this.client.clientThread.dataOutputStream.writeUTF(String.format("<!CHALLENGE!> %s %s", opposite, this.client.name));
                 JOptionPane.showMessageDialog(this, "Waiting for response", "Info",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -159,6 +169,9 @@ public class NetworkPanel extends JPanel {
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!ACCEPT_CHALLENGE!> " + this.client.name);
             this.client.clientThread.initialateColor(-1);
+            this.acceptChallengeButton.setEnabled(false);
+            this.refuseChallengeButton.setEnabled(false);
+            this.challengeButton.setEnabled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,6 +182,25 @@ public class NetworkPanel extends JPanel {
             this.client.clientThread.dataOutputStream.writeUTF("<!REFUSE_CHALLENGE!> " + this.client.name);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void surrenderEvent(){
+        int option= JOptionPane.showConfirmDialog(
+                Client.mainFrame, "Do you determine to surrender? ", "Warning",JOptionPane.YES_NO_CANCEL_OPTION);
+        if(option == JOptionPane.YES_OPTION){
+            if(GameFrame.controller.client.color == 1){
+                GameFrame.controller.setBlackScore(0);
+                GameFrame.controller.setWhiteScore(64);
+            }
+            else{
+                GameFrame.controller.setBlackScore(64);
+                GameFrame.controller.setWhiteScore(0);
+            }
+            GameFrame.controller.endGame();
+        }
+        else{
+
         }
     }
 }

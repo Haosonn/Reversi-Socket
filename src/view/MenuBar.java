@@ -1,5 +1,6 @@
 package view;
 
+import ai.ThreadForAI;
 import components.ChessGridComponent;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class MenuBar extends JMenuBar {
         add(createGameMenu(mainframe));
         add(createEditMenu(mainframe));
         add(createThemeMenu());
+        add(createAIMenu());
         setVisible(true);
     }
 
@@ -44,6 +46,12 @@ public class MenuBar extends JMenuBar {
         menu.addSeparator();
 
         JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem("cheating mode");
+
+        cbMenuItem.addActionListener(e -> {
+            GameFrame.controller.setCheatingBtnOn(!GameFrame.controller.isCheatingBtnOn());
+        });
+
+
         menu.add(cbMenuItem);
 
         return menu;
@@ -123,6 +131,68 @@ public class MenuBar extends JMenuBar {
         board.add(rb4);
         board.add(customBoard);
         menu.add(board);
+
+        return menu;
+    }
+
+    private JMenu createAIMenu() {
+        JMenu menu = new JMenu("AI");
+
+        JMenu aiMode = new JMenu("AI mode");
+
+        JCheckBoxMenuItem blackAI = new JCheckBoxMenuItem("black");
+        blackAI.addActionListener(e -> {
+            GameFrame.controller.setBlackAIModeOn(!GameFrame.controller.isBlackAIModeOn());
+            if (GameFrame.controller.isBlackAIModeOn()) {
+                GameFrame.controller.setThreadForBlackAI(new ThreadForAI(1, GameFrame.controller.getBlackDeep()));
+                GameFrame.controller.getThreadForBlackAI().start();
+                System.out.println("Black AI On");
+            } else {
+
+                System.out.println("Black AI Off");
+            }
+        });
+
+        JCheckBoxMenuItem whiteAI = new JCheckBoxMenuItem("white");
+        whiteAI.addActionListener(e -> {
+            GameFrame.controller.setWhiteAIModeOn(!GameFrame.controller.isWhiteAIModeOn());
+            if (GameFrame.controller.isWhiteAIModeOn()) {
+                GameFrame.controller.setThreadForWhiteAI(new ThreadForAI(-1, GameFrame.controller.getWhiteDeep()));
+                GameFrame.controller.getThreadForWhiteAI().start();
+                System.out.println("White AI On");
+            } else {
+                System.out.println("White AI Off");
+            }
+        });
+
+        aiMode.add(blackAI);
+        aiMode.add(whiteAI);
+        menu.add(aiMode);
+
+        JMenu aiLevel = new JMenu("AI level");
+        JMenu blackLevel = new JMenu("black level");
+        JMenu whiteLevel = new JMenu("white level");
+        JSlider blackSlider = new JSlider(1, 6);
+        JSlider whiteSlider = new JSlider(1, 6);
+        blackSlider.setMajorTickSpacing(1);
+        whiteSlider.setMajorTickSpacing(1);
+        blackSlider.setPaintTicks(true);
+        whiteSlider.setPaintTicks(true);
+        blackSlider.addChangeListener(e -> {
+            GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+            GameFrame.controller.setBlackDeep(blackSlider.getValue());
+        });
+        whiteSlider.addChangeListener(e -> {
+            GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            GameFrame.controller.setWhiteDeep(whiteSlider.getValue());
+        });
+
+        blackLevel.add(blackSlider);
+        whiteLevel.add(whiteSlider);
+        aiLevel.add(blackLevel);
+        aiLevel.add(whiteLevel);
+
+        menu.add(aiLevel);
 
         return menu;
     }

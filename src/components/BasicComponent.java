@@ -1,5 +1,8 @@
 package components;
 
+import model.ChessPiece;
+import view.GameFrame;
+
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,10 +13,23 @@ public abstract class BasicComponent extends JComponent {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                onMouseClicked();
+                if (!aiModeOn()) {
+                    super.mousePressed(e);
+                    onMouseClicked();
+                }
             }
         });
     }
 
     public abstract void onMouseClicked();
+
+    private boolean aiModeOn() {
+        if (GameFrame.controller.getCurrentPlayer() == ChessPiece.BLACK && GameFrame.controller.isBlackAIModeOn()) {
+            return true;
+        }
+        if (GameFrame.controller.getCurrentPlayer() == ChessPiece.WHITE && GameFrame.controller.isWhiteAIModeOn()) {
+            return true;
+        }
+        return false;
+    }
 }

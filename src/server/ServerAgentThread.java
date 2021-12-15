@@ -51,6 +51,11 @@ public class ServerAgentThread extends Thread{
         while (flag){
             try {
                 String msg = dataInputStream.readUTF().trim();
+                if(msg.startsWith("<!OPPOSITE_NAME!>")){
+                    System.out.println(msg);
+                    this.oppositeName = msg.split(" ")[1];
+                    continue;
+                }
                 Vector v = this.father.onlineList;
                 for (int i = 0; i < v.size(); i++) {
                     ServerAgentThread tempSat = (ServerAgentThread) v.get(i);
@@ -58,7 +63,7 @@ public class ServerAgentThread extends Thread{
                     if (msg.startsWith("<!MOVE!>") || msg.startsWith("<!UNDO_REQUEST!>") || msg.startsWith("<!AGREEUNDO!>") || msg.startsWith("<!DISAGREEUNDO!>")) {
                         if(tempSat.name.equals(oppositeName)){
                             tempSat.dataOutputStream.writeUTF(msg);
-                            break;
+                            //break;
                         }
                     }
                     else if(msg.startsWith("<!CHALLENGE!>")){

@@ -13,7 +13,6 @@ public class Client {
     public Socket socket;
     public ClientThread clientThread;
     public String name;
-    public String oppositeName;
     public static GameFrame mainFrame;
     public int color;
     public boolean canMove;
@@ -24,18 +23,6 @@ public class Client {
         this.onlineMode = false;
         this.aiMode = false;
 
-//        if(!onlineMode) return;
-//        Scanner typeIn = new Scanner(System.in);
-//        name = typeIn.next();
-//        try {
-//            // 和服务器创建连接
-//            this.socket = new Socket("localhost", 9090);
-//            clientThread= new ClientThread(this);
-//            clientThread.start();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
     public static void main(String[] args) throws IOException {
         Client client = new Client();

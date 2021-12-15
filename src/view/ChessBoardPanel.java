@@ -166,7 +166,6 @@ public class ChessBoardPanel extends JPanel
 
         if (!chessGrids[row][col].getReminder()) return 0;
 
-
         int[][] direction = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         int[] correctDir = new int[9];
         int reverseCnt = 0;
