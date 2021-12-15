@@ -1,6 +1,7 @@
 package components;
 
 import animation.ThreadForNewPiece;
+import animation.ThreadForReversing;
 import model.*;
 import view.GameFrame;
 
@@ -19,11 +20,31 @@ public class ChessGridComponent extends BasicComponent {
     private int row;
     private int col;
     private boolean reminder;
+
+    public int getReversingColor() {
+        return reversingColor;
+    }
+
+    public void setReversingColor(int reversingColor) {
+        this.reversingColor = reversingColor;
+    }
+
     private boolean newPiece;
     private Image black, white;
 
     private int newPieceAlpha = 100;
     private ThreadForNewPiece threadForNewPiece;
+    private int reversingSize = chessSize;
+    private int reversingColor;
+    private ThreadForReversing threadForReversing;
+
+    public int getReversingSize() {
+        return reversingSize;
+    }
+
+    public void setReversingSize(int reversingSize) {
+        this.reversingSize = reversingSize;
+    }
 
     public int getNewPieceAlpha() {
         return newPieceAlpha;
@@ -35,6 +56,14 @@ public class ChessGridComponent extends BasicComponent {
 
     public void setNewPiece(boolean newPiece) {
         this.newPiece = newPiece;
+    }
+
+    public ThreadForReversing getThreadForReversing() {
+        return threadForReversing;
+    }
+
+    public void setThreadForReversing(ThreadForReversing threadForReversing) {
+        this.threadForReversing = threadForReversing;
     }
 
     public ChessGridComponent(int row, int col) {
@@ -55,6 +84,7 @@ public class ChessGridComponent extends BasicComponent {
             GameFrame.controller.setOnePiece(row, col);
             GameFrame.controller.getGamePanel().getChessGrids(GameFrame.controller.getGamePanel().getNewPiece()[0], GameFrame.controller.getGamePanel().getNewPiece()[1]).setNewPiece(false);
             GameFrame.controller.getGamePanel().setNewPiece(row, col);
+            this.reversingColor = (this.getChessPiece() == ChessPiece.BLACK) ? 1 : -1;
             this.newPiece = true;
             this.threadForNewPiece = new ThreadForNewPiece(this);
             this.threadForNewPiece.start();
@@ -82,6 +112,7 @@ public class ChessGridComponent extends BasicComponent {
 
     public void setChessPiece(ChessPiece chessPiece) {
         this.chessPiece = chessPiece;
+        this.reversingColor = (this.getChessPiece() == ChessPiece.BLACK) ? 1 : -1;
     }
 
     public int getRow() {
@@ -105,10 +136,10 @@ public class ChessGridComponent extends BasicComponent {
         black = new ImageIcon("resources/Black.png").getImage();
         white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
-            if (this.chessPiece.getColor() == Color.BLACK) {
-                g.drawImage(black, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
+            if (this.reversingColor == 1) {
+                g.drawImage(black, (gridSize - reversingSize) / 2, (gridSize - reversingSize) / 2, reversingSize, reversingSize, this);
             } else {
-                g.drawImage(white, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
+                g.drawImage(white, (gridSize - reversingSize) / 2, (gridSize - reversingSize) / 2, reversingSize, reversingSize, this);
             }
         }
         if (this.reminder) {

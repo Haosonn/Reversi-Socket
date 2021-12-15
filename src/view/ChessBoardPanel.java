@@ -1,5 +1,6 @@
 package view;
 
+import animation.ThreadForReversing;
 import client.Client;
 import components.ChessGridComponent;
 import game.GameRecord;
@@ -128,13 +129,19 @@ public class ChessBoardPanel extends JPanel {
         int cnt = 0;
         while (nowRow >= 0 && nowRow < CHESS_COUNT && nowCol >= 0 && nowCol < CHESS_COUNT) {
             if (chessGrids[nowRow][nowCol].getChessPiece().getColor() == currentPlayer.getColor()) return cnt;
-            chessGrids[nowRow][nowCol].setChessPiece(currentPlayer);
+
+            if (chessGrids[nowRow][nowCol].getThreadForReversing() != null) {
+                chessGrids[nowRow][nowCol].getThreadForReversing().setEnd(true);
+            }
+            chessGrids[nowRow][nowCol].setThreadForReversing(new ThreadForReversing(chessGrids[nowRow][nowCol]));
+            chessGrids[nowRow][nowCol].getThreadForReversing().start();
+            chessGrids[nowRow][nowCol].setChessPiece(GameFrame.controller.getCurrentPlayer());
+
             nowRow += rowDir;
             nowCol += colDir;
             cnt++;
         }
         return cnt;
-
     }
 
     public boolean findAllMoves(ChessPiece currentPlayer) {
