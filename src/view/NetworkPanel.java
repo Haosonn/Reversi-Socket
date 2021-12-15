@@ -32,42 +32,42 @@ public class NetworkPanel extends JPanel {
         this.setSize(width, height);
         this.setLayout(null);
         this.portLabel.setBounds(0, (int)(this.getHeight()*0.02), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.portLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
+        this.portLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.portLabel);
 
         this.portTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.02), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.portTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
+        this.portTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.portTextField);
 
         this.ipLabel.setBounds(0, (int)(this.getHeight()*0.1), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.ipLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
+        this.ipLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.ipLabel);
 
         this.ipTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.1), (int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
+        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.ipTextField);
 
         this.nameLabel.setBounds(0, (int)(this.getHeight()*0.18),(int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.nameLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 30));
+        this.nameLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.nameLabel);
 
         this.nameTextField.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.18),(int)(this.getWidth()*0.4), (int)(this.getHeight()*0.05));
-        this.nameTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.nameTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.nameTextField);
 
         this.connectButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.26), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
-        this.connectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.connectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.connectButton.addActionListener(new Listener());
         this.add(this.connectButton);
 
         this.disconnectButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.26), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
-        this.disconnectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.disconnectButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.disconnectButton.addActionListener(new Listener());
         this.add(this.disconnectButton);
         this.disconnectButton.setEnabled(false);
 
         this.players.setBounds((int)(this.getWidth()*0.01),(int)(this.getHeight()*0.34),(int)(this.getWidth()*0.32),(int)(this.getHeight()*0.05));
-        this.players.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.players.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.add(this.players);
 
         this.surrenderButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.34), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
@@ -77,18 +77,18 @@ public class NetworkPanel extends JPanel {
         this.surrenderButton.setEnabled(false);
 
         this.challengeButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.42), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
-        this.challengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.challengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.challengeButton.addActionListener(new Listener());
         this.add(this.challengeButton);
 
         this.acceptChallengeButton.setBounds((int)(this.getWidth()*0.01), (int)(this.getHeight()*0.50), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
-        this.acceptChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.acceptChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.acceptChallengeButton.addActionListener(new Listener());
         this.add(this.acceptChallengeButton);
         this.acceptChallengeButton.setEnabled(false);
 
         this.refuseChallengeButton.setBounds((int)(this.getWidth()*0.4), (int)(this.getHeight()*0.50), (int)(this.getWidth()*0.32), (int)(this.getHeight()*0.05));
-        this.refuseChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.refuseChallengeButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.refuseChallengeButton.addActionListener(new Listener());
         this.add(this.refuseChallengeButton);
         this.refuseChallengeButton.setEnabled(false);
@@ -172,6 +172,7 @@ public class NetworkPanel extends JPanel {
             this.acceptChallengeButton.setEnabled(false);
             this.refuseChallengeButton.setEnabled(false);
             this.challengeButton.setEnabled(false);
+            this.surrenderButton.setEnabled(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

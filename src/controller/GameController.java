@@ -238,18 +238,16 @@ public class GameController {
         if (threadForBlackAI != null && threadForBlackAI.isAlive()) threadForBlackAI.exit = true;
         if (threadForWhiteAI != null && threadForWhiteAI.isAlive()) threadForWhiteAI.exit = true;
         gameEnd = true;
-        if (this.blackScore > this.whiteScore)
-            JOptionPane.showMessageDialog(Client.mainFrame, "BLACK WIN");
-        else if (this.whiteScore > this.blackScore)
-            JOptionPane.showMessageDialog(Client.mainFrame, "WHITE WIN");
-        else JOptionPane.showMessageDialog(Client.mainFrame, "DRAW");
         if (this.blackScore > this.whiteScore) {
             statusPanel.setGameResult("BLACK WIN");
+            JOptionPane.showMessageDialog(Client.mainFrame, "BLACK WIN");
         } else {
             if (this.whiteScore > this.blackScore) {
                 statusPanel.setGameResult("WHITE WIN");
+                JOptionPane.showMessageDialog(Client.mainFrame, "WHITE WIN");
             } else {
                 statusPanel.setGameResult("DRAW");
+                JOptionPane.showMessageDialog(Client.mainFrame, "DRAW");
             }
         }
     }

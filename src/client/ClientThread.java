@@ -38,6 +38,7 @@ public class ClientThread extends Thread{
                 }
                 else if(msg.startsWith("<!ACCEPT_CHALLENGE!>")){
                     this.initialateColor(1);
+                    Client.mainFrame.setSurrenderBtnOn();
                 }
                 else if(msg.startsWith("<!REFUSE_CHALLENGE!>")){
                     Client.mainFrame.receiveRefuseChallengeMsg(msg);
@@ -74,6 +75,7 @@ public class ClientThread extends Thread{
                         GameFrame.controller.setWhiteScore(64);
                     }
                     Client.mainFrame.setChallengeBtnOn();
+                    JOptionPane.showMessageDialog(Client.mainFrame, "Your opposite has surrendered");
                     GameFrame.controller.endGame();
                 }
 

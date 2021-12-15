@@ -132,4 +132,7 @@ public class GameFrame extends JFrame {
     public void setChallengeBtnOn(){
         this.networkPanel.challengeButton.setEnabled(true);
     }
+    public void setSurrenderBtnOn() {
+        this.networkPanel.surrenderButton.setEnabled(true);
+    }
 }
