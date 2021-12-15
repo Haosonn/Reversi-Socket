@@ -9,18 +9,16 @@ import java.awt.*;
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
     public static int gridSize;
-    public static Color gridColor = new Color(255, 150, 50);
-
     public static final Color none = new Color(0, 0, 0, 0);
     public static boolean isCustom = false;
     public static Color primaryColor = Color.DARK_GRAY;
     public static Color secondaryColor = Color.LIGHT_GRAY;
 
-    private Image blackChess, whiteChess;
     private ChessPiece chessPiece;
     private int row;
     private int col;
     private boolean reminder;
+    private Image black, white;
 
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
@@ -73,20 +71,22 @@ public class ChessGridComponent extends BasicComponent {
     }
 
     public void drawPiece(Graphics g) {
-//        g.setColor(gridColor);
-//        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
-        blackChess = new ImageIcon("resources/Black.png").getImage();
-        whiteChess = new ImageIcon("resources/White.png").getImage();
+        g.setColor(((this.col + this.row) % 2 != 0) ? primaryColor : secondaryColor);
+        if (!isCustom) {
+            g.setColor(none);
+        }
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        black = new ImageIcon("resources/Black.png").getImage();
+        white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
-//            g.setColor(chessPiece.getColor());
-//            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
-            if (this.chessPiece == ChessPiece.BLACK)
-                g.drawImage(blackChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
-            else
-                g.drawImage(whiteChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+            if (this.chessPiece.getColor() == Color.BLACK) {
+                g.drawImage(black, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+            } else {
+                g.drawImage(white, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+            }
         }
         if (this.reminder) {
-            g.setColor(new Color(0, 0, 0, 70));
+            g.setColor(new Color(0, 0, 0, 100));
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
         }
     }
