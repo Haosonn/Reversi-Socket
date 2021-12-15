@@ -30,16 +30,16 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
 
-        chessBoardPanel = new ChessBoardPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.7));
-        chessBoardPanel.setLocation((this.getWidth()) / 10, (this.getHeight() - chessBoardPanel.getHeight()) / 3);
+        chessBoardPanel = new ChessBoardPanel((int) (this.getWidth() * 0.8), (int) (this.getHeight() * 0.8));
+        chessBoardPanel.setLocation((this.getWidth()) / 25, (this.getHeight()) / 12);
 
-        statusPanel = new StatusPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.1));
-        statusPanel.setLocation((this.getWidth()) / 10, 0);
+        statusPanel = new StatusPanel((int) (this.getWidth() * 0.6), (int) (this.getHeight() * 0.08));
+        statusPanel.setLocation((this.getWidth()) / 8, 0);
         controller = new GameController(chessBoardPanel, statusPanel, client);
         controller.setGamePanel(chessBoardPanel);
 
         networkPanel = new NetworkPanel((int) (this.getWidth() * 0.2), (int) (this.getHeight()), client);
-        networkPanel.setLocation( (7 * this.getWidth()) / 10, 0);
+        networkPanel.setLocation( (15 * this.getWidth()) / 20, (this.getHeight()) / 10);
         this.add(chessBoardPanel);
         this.add(statusPanel);
         this.add(networkPanel);

@@ -9,18 +9,21 @@ import java.awt.*;
 public class ChessGridComponent extends BasicComponent {
     public static int chessSize;
     public static int gridSize;
-    public static Color gridColor = new Color(255, 150, 50);
-
     public static final Color none = new Color(0, 0, 0, 0);
     public static boolean isCustom = false;
     public static Color primaryColor = Color.DARK_GRAY;
     public static Color secondaryColor = Color.LIGHT_GRAY;
 
-    private Image blackChess, whiteChess;
     private ChessPiece chessPiece;
     private int row;
     private int col;
     private boolean reminder;
+    private boolean newPiece;
+    private Image black, white;
+
+    public void setNewPiece(boolean newPiece) {
+        this.newPiece = newPiece;
+    }
 
     public ChessGridComponent(int row, int col) {
         this.setSize(gridSize, gridSize);
@@ -38,6 +41,9 @@ public class ChessGridComponent extends BasicComponent {
 
             this.reminder = false;
             GameFrame.controller.setOnePiece(row, col);
+            GameFrame.controller.getGamePanel().getChessGrids(GameFrame.controller.getGamePanel().getNewPiece()[0], GameFrame.controller.getGamePanel().getNewPiece()[1]).setNewPiece(false);
+            GameFrame.controller.getGamePanel().setNewPiece(row, col);
+            this.newPiece = true;
             GameFrame.controller.updateScore();
             GameFrame.controller.swapPlayer();
             if (!GameFrame.controller.canClick()) {
@@ -73,21 +79,31 @@ public class ChessGridComponent extends BasicComponent {
     }
 
     public void drawPiece(Graphics g) {
-//        g.setColor(gridColor);
-//        g.fillRect(1, 1, this.getWidth() - 2, this.getHeight() - 2);
-        blackChess = new ImageIcon("resources/Black.png").getImage();
-        whiteChess = new ImageIcon("resources/White.png").getImage();
+        g.setColor(((this.col + this.row) % 2 != 0) ? primaryColor : secondaryColor);
+        if (!isCustom) {
+            g.setColor(none);
+        }
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        black = new ImageIcon("resources/Black.png").getImage();
+        white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
-//            g.setColor(chessPiece.getColor());
-//            g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
-            if (this.chessPiece == ChessPiece.BLACK)
-                g.drawImage(blackChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
-            else
-                g.drawImage(whiteChess, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+            if (this.chessPiece.getColor() == Color.BLACK) {
+                g.drawImage(black, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
+            } else {
+                g.drawImage(white, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
+            }
         }
         if (this.reminder) {
-            g.setColor(new Color(0, 0, 0, 70));
+            g.setColor(new Color(0, 0, 0, 10));
+            g.fillOval((gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4);
+            g.setColor(new Color(0, 0, 0, 10));
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+            g.setColor(new Color(0, 0, 0, 50));
+            g.fillOval((gridSize - chessSize - 4) / 2, (gridSize - chessSize - 4) / 2, chessSize + 4, chessSize + 4);
+        }
+        if (this.newPiece) {
+            g.setColor(new Color(255, 0, 0, 50));
+            g.fillOval((gridSize - chessSize / 2) / 2, (gridSize - chessSize / 2) / 2, chessSize / 2, chessSize / 2);
         }
     }
 
