@@ -1,5 +1,7 @@
 package client;
 
+import view.GameFrame;
+
 import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -45,7 +47,7 @@ public class ClientThread extends Thread{
                 }
                 else if(msg.startsWith("<!AGREEUNDO!>")){
                     System.out.println("Agree!");
-                    Client.mainFrame.controller.undo();
+                    GameFrame.controller.undo();
                     Client.mainFrame.repaint();
                 }
                 else if(msg.startsWith("<!DISAGREEUNDO!>")){
@@ -58,9 +60,20 @@ public class ClientThread extends Thread{
                     Client.mainFrame.getChallengeRequest(msg);
                 }
                 else if(msg.startsWith("<!MOVE!>")){
-                    Client.mainFrame.controller.readData(msg);
+                    GameFrame.controller.readData(msg);
                     this.father.canMove = true;
                     Client.mainFrame.repaint();
+                }
+                else if(msg.startsWith("<!SURRENDER!>")){
+                    if(this.father.color == 1){
+                        GameFrame.controller.setBlackScore(64);
+                        GameFrame.controller.setWhiteScore(0);
+                    }
+                    else{
+                        GameFrame.controller.setBlackScore(0);
+                        GameFrame.controller.setWhiteScore(64);
+                    }
+                    GameFrame.controller.endGame();
                 }
 
 

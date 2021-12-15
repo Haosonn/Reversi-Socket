@@ -234,8 +234,8 @@ public class GameController {
     }
 
     public void endGame() {
-        if(threadForBlackAI.isAlive())  threadForBlackAI.exit = true;
-        if(threadForWhiteAI.isAlive())  threadForWhiteAI.exit = true;
+        if(threadForBlackAI != null && threadForBlackAI.isAlive())  threadForBlackAI.exit = true;
+        if(threadForWhiteAI != null && threadForWhiteAI.isAlive())  threadForWhiteAI.exit = true;
         if (this.blackScore > this.whiteScore)
             JOptionPane.showMessageDialog(Client.mainFrame,"BLACK WIN");
         else if(this.whiteScore > this.blackScore)
