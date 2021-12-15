@@ -80,14 +80,19 @@ public class ChessGridComponent extends BasicComponent {
         white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
             if (this.chessPiece.getColor() == Color.BLACK) {
-                g.drawImage(black, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+                g.drawImage(black, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
             } else {
-                g.drawImage(white, (gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize, this);
+                g.drawImage(white, (gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4, this);
             }
         }
         if (this.reminder) {
-            g.setColor(new Color(0, 0, 0, 100));
+            g.setColor(new Color(0, 0, 0, 15));
+            g.fillOval((gridSize - chessSize + 4) / 2, (gridSize - chessSize + 4) / 2, chessSize - 4, chessSize - 4);
+            g.setColor(new Color(0, 0, 0, 15));
             g.fillOval((gridSize - chessSize) / 2, (gridSize - chessSize) / 2, chessSize, chessSize);
+            g.setColor(new Color(0, 0, 0, 50));
+            g.fillOval((gridSize - chessSize - 4) / 2, (gridSize - chessSize - 4) / 2, chessSize + 4, chessSize + 4);
+
         }
     }
 
