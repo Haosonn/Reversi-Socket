@@ -148,6 +148,7 @@ public class MenuBar extends JMenuBar {
                 GameFrame.controller.getThreadForBlackAI().start();
                 System.out.println("Black AI On");
             } else {
+
                 System.out.println("Black AI Off");
             }
         });

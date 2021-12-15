@@ -8,7 +8,7 @@ public class ThreadForAI extends Thread {
     private int deep;
     private int[][] chessBoard = new int[8][8];
     private Node root;
-
+    public boolean exit = false;
     public void setDeep(int deep) {
         this.deep = deep;
     }
@@ -33,6 +33,7 @@ public class ThreadForAI extends Thread {
     @Override
     public void run() {
         while ((this.color == 1 && GameFrame.controller.isBlackAIModeOn()) || (this.color == -1 && GameFrame.controller.isWhiteAIModeOn())) {
+            if(exit) break;
             if (boradSpace() == 0) {
                 System.out.println("Game End");
                 break;

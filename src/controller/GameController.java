@@ -100,14 +100,6 @@ public class GameController {
         blackScore = 2;
         whiteScore = 2;
         this.client = client;
-        if (client.aiMode) {
-//            easyAI = new EasyAI();
-//            easyAI.start();
-//            mediumAI = new MediumAI();
-//            mediumAI.start();
-//            hardAI = new HardAI();
-//            hardAI.start();
-        }
 
     }
 
@@ -242,25 +234,18 @@ public class GameController {
     }
 
     public void endGame() {
-        class EndDialog extends JDialog {
-            public EndDialog(int result) {
-                super();
-                Container container = getContentPane();
-                if (result == 1)
-                    container.add(new JLabel("BLACK WIN"));
-                else
-                    container.add(new JLabel("WHITE WIN"));
-                setBounds(120, 120, 100, 100);
-                setVisible(true);
-            }
-        }
+        if(threadForBlackAI.isAlive())  threadForBlackAI.exit = true;
+        if(threadForWhiteAI.isAlive())  threadForWhiteAI.exit = true;
+        if (this.blackScore > this.whiteScore)
+            JOptionPane.showMessageDialog(Client.mainFrame,"BLACK WIN");
+        else if(this.whiteScore > this.blackScore)
+            JOptionPane.showMessageDialog(Client.mainFrame,"WHITE WIN");
+        else JOptionPane.showMessageDialog(Client.mainFrame,"DRAW");
         if (this.blackScore > this.whiteScore) {
-            //EndDialog endDialog = new EndDialog(1);
             statusPanel.setGameResult("BLACK WIN");
         } else {
             if (this.whiteScore > this.blackScore) {
                 statusPanel.setGameResult("WHITE WIN");
-                //EndDialog endDialog = new EndDialog(-1);
             } else {
                 statusPanel.setGameResult("DRAW");
             }

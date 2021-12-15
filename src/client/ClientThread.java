@@ -1,5 +1,6 @@
 package client;
 
+import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Scanner;
@@ -71,6 +72,7 @@ public class ClientThread extends Thread{
     }
 
     public void initialateColor(int color) {
+        Client.mainFrame.restart();
         if(color == 1){
             this.father.color = 1;
             this.father.canMove = true;
@@ -82,10 +84,10 @@ public class ClientThread extends Thread{
     }
 
     public void undoRequest() {
-        System.out.printf("Do u AGREE your opposite's UNDO? (Y/N):\n");
-        String ans = typeIn.next();
+        int option= JOptionPane.showConfirmDialog(
+                Client.mainFrame, "Do u AGREE your opposite's UNDO? ", "Request ",JOptionPane.YES_NO_CANCEL_OPTION);
         try{
-            if(ans.charAt(0) == 'Y'){
+            if (option == JOptionPane.YES_OPTION){
                 dataOutputStream.writeUTF("<!AGREEUNDO!>");
                 Client.mainFrame.controller.undo();
                 Client.mainFrame.repaint();
@@ -96,6 +98,7 @@ public class ClientThread extends Thread{
         } catch (Exception e){
             e.printStackTrace();
         }
+
 
     }
 }
