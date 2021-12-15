@@ -137,9 +137,9 @@ public class ChessGridComponent extends BasicComponent {
         white = new ImageIcon("resources/White.png").getImage();
         if (this.chessPiece != null) {
             if (this.reversingColor == 1) {
-                g.drawImage(black, (gridSize - reversingSize) / 2, (gridSize - reversingSize) / 2, reversingSize, reversingSize, this);
+                g.drawImage(black, (gridSize - reversingSize) / 2, (gridSize - chessSize) / 2, reversingSize, chessSize, this);
             } else {
-                g.drawImage(white, (gridSize - reversingSize) / 2, (gridSize - reversingSize) / 2, reversingSize, reversingSize, this);
+                g.drawImage(white, (gridSize - reversingSize) / 2, (gridSize - chessSize) / 2, reversingSize, chessSize, this);
             }
         }
         if (this.reminder) {

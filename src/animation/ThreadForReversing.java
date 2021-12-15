@@ -37,7 +37,6 @@ public class ThreadForReversing extends Thread {
         chessGrid.setReversingColor(-chessGrid.getReversingColor());
         for (int i = 0; i < 10; i++) {
             if (end) {
-                System.out.println("end");
                 return;
             }
             chessGrid.setReversingSize(chessGrid.getReversingSize() + ChessGridComponent.chessSize / 10);
