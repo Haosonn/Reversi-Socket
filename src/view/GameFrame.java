@@ -44,7 +44,7 @@ public class GameFrame extends JFrame {
         this.add(chessBoardPanel);
         this.add(statusPanel);
         this.add(networkPanel);
-        controller.addToHistory();
+        controller.addToHistory(4,4);
 
 
         this.setVisible(true);
@@ -60,7 +60,7 @@ public class GameFrame extends JFrame {
         this.chessBoardPanel.clearReminders();
         this.chessBoardPanel.findAllMoves(ChessPiece.BLACK);
         controller.resetCurrentPlayer();
-        controller.addToHistory();
+        controller.addToHistory(4,4);
         controller.gameEnd = false;
         if (GameFrame.controller.isBlackAIModeOn()) {
             GameFrame.controller.setThreadForBlackAI(new ThreadForAI(1, controller.getBlackDeep()));

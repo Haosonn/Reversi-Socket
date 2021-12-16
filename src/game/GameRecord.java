@@ -14,12 +14,9 @@ public class GameRecord {
     private ChessPiece currentPlayer;
     private int blackCnt;
     private int whiteCnt;
+    private int[] step = {-1, -1};
 
-
-
-    private ArrayList<int[]> step = new ArrayList<>();
-
-    public ArrayList<int[]> getStep() {
+    public int[] getStep() {
         return step;
     }
 
@@ -33,52 +30,20 @@ public class GameRecord {
 
     @Override
     public String toString() {
-        String finalString = "";
-        for (int i = 0; i <= 7; i++) {
-            for (int j = 0; j <= 7; j++) {
-                if (chessboard[i][j] == null) finalString += "0 ";
-                if (chessboard[i][j] == ChessPiece.BLACK) finalString += "1 ";
-                if (chessboard[i][j] == ChessPiece.WHITE) finalString += "-1 ";
-            }
-            //finalString += '\n';
-        }
-
-        if (currentPlayer == ChessPiece.BLACK) finalString += "1 ";
-        if (currentPlayer == ChessPiece.WHITE) finalString += "-1 ";
-
-        finalString += String.format("%d %d", blackCnt, whiteCnt);
-        return finalString;
-    }
-
-
-    public List<String> toStringList() {
-        List<String> lines = new ArrayList<>();
         String line = new String();
-
         for (int i = 0; i <= 7; i++) {
-//            line = "";
             for (int j = 0; j <= 7; j++) {
                 if (chessboard[i][j] == null) line += "0 ";
                 if (chessboard[i][j] == ChessPiece.BLACK) line += "1 ";
                 if (chessboard[i][j] == ChessPiece.WHITE) line += "-1 ";
             }
-//            lines.add(line);
         }
-//        line = "";
         if (currentPlayer == ChessPiece.BLACK) line += "1 ";
         if (currentPlayer == ChessPiece.WHITE) line += "-1 ";
-        line += String.format("%d %d", blackCnt, whiteCnt);
-        lines.add(line);
-
-        line = "";
-        for (int i = 0; i < step.size(); i++) {
-            line = String.format("%d %d\n", step.get(i)[0], step.get(i)[1]);
-            lines.add(line);
-        }
-        return lines;
+        line += String.format("%d %d %d %d\n", blackCnt, whiteCnt, step[0], step[1]);
+        return line;
     }
-
-    //String = chessboard + currentplayer + blackcnt + whitecnt
+    //String = chessboard + currentplayer + blackcnt + whitecnt + row + col
     public void setChessboard(ChessPiece[][] chessboard) {
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
@@ -87,7 +52,7 @@ public class GameRecord {
                     continue;
                 }
                 if(chessboard[i][j] == ChessPiece.BLACK)
-                this.chessboard[i][j] = ChessPiece.BLACK;
+                    this.chessboard[i][j] = ChessPiece.BLACK;
                 if(chessboard[i][j] == ChessPiece.WHITE)
                     this.chessboard[i][j] = ChessPiece.WHITE;
             }
@@ -121,8 +86,8 @@ public class GameRecord {
         return currentPlayer;
     }
 
-    public void copyToGame(ChessBoardPanel gamePanel, GameController controller, List<String> fileData) {
-        String[] data = fileData.get(0).split(" ");
+    public void copyToGame(ChessBoardPanel gamePanel, GameController controller, String fileData) {
+        String[] data = fileData.split(" ");
         int row = 0;
         int col = 0;
         int cnt = 0;
@@ -147,7 +112,10 @@ public class GameRecord {
         controller.setBlackScore(Integer.parseInt(data[cnt]));
         cnt++;
         controller.setWhiteScore(Integer.parseInt(data[cnt]));
+    }
 
-
+    public void setStep(int[] step) {
+        this.step[0] = step[0];
+        this.step[1] = step[1];
     }
 }

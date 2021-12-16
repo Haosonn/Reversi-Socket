@@ -160,7 +160,6 @@ public class GameController {
     }
 
     public void readFileData(String fileName) {
-        //todo: read date from file
         List<String> fileData = new ArrayList<>();
         GameRecord gameRecord = new GameRecord();
         try {
@@ -170,22 +169,25 @@ public class GameController {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
-
-            gameRecord.copyToGame(this.gamePanel, this, fileData);
-            statusPanel.setScoreText(this.blackScore, this.whiteScore);
-            statusPanel.setPlayerText(currentPlayer.name());
-            gamePanel.findAllMoves(currentPlayer);
-
+//            statusPanel.setScoreText(this.blackScore, this.whiteScore);
+//            statusPanel.setPlayerText(currentPlayer.name());
+//            gamePanel.findAllMoves(currentPlayer);
+            gameHistory.clear();
             for (int i = 1; i < fileData.size(); i++) {
-                int[] arrayLine = {Character.getNumericValue(fileData.get(i).charAt(0)), Character.getNumericValue(fileData.get(i).charAt(2))};
-                gameRecord.getStep().clear();
-                gameRecord.getStep().add(arrayLine);
+                int[] step = {Integer.parseInt(fileData.get(i).split(" ")[67]), Integer.parseInt(fileData.get(i).split(" ")[68])};
+                GameFrame.controller.getGamePanel().getChessGrids(step[0],step[1]).onMouseClicked();
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+//                gameRecord.getStep().add(arrayLine);
             }
-
             fileData.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void readData(String data) {
@@ -205,11 +207,11 @@ public class GameController {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter writer = new BufferedWriter(fileWriter);
-            GameRecord gameRecord = new GameRecord();
-            setThisStep(gameRecord);
-            List<String> lines = gameRecord.toStringList();
-            for (String line : lines
-            ) {
+            List<String> lines = new ArrayList<>();
+            for (GameRecord gameRecord:gameHistory) {
+                lines.add(gameRecord.toString());
+            }
+            for (String line : lines) {
                 writer.write(line);
             }
             writer.close();
@@ -259,10 +261,11 @@ public class GameController {
         gameRecord.setCurrentPlayer(currentPlayer);
     }
 
-    public void addToHistory() {
-        GameRecord thisStep = new GameRecord();
-        setThisStep(thisStep);
-        gameHistory.add(thisStep);
+    public void addToHistory(int row,int col) {
+        GameRecord thisChessBoard = new GameRecord();
+        setThisStep(thisChessBoard);
+        thisChessBoard.setStep(new int[]{row,col});
+        gameHistory.add(thisChessBoard);
     }
 
 
@@ -291,7 +294,7 @@ public class GameController {
         GameRecord gameRecord = new GameRecord();
         if (gameHistory.size() == 1) return;
         gameHistory.remove(gameHistory.size() - 1);
-        List<String> previousMove = gameHistory.get(gameHistory.size() - 1).toStringList();
+        String previousMove = gameHistory.get(gameHistory.size() - 1).toString();
         gameRecord.copyToGame(this.gamePanel, this, previousMove);
         statusPanel.setScoreText(this.blackScore, this.whiteScore);
         statusPanel.setPlayerText(currentPlayer.name());

@@ -100,7 +100,7 @@ public class ChessGridComponent extends BasicComponent {
             GameFrame.controller.client.canMove = false;
             if (GameFrame.controller.client.onlineMode)
                 GameFrame.controller.sendInfo(row, col);
-            GameFrame.controller.addToHistory();
+            GameFrame.controller.addToHistory(row, col);
         }
         repaint();
     }
