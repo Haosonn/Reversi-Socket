@@ -173,7 +173,8 @@ public class GameController {
 //            statusPanel.setScoreText(this.blackScore, this.whiteScore);
 //            statusPanel.setPlayerText(currentPlayer.name());
 //            gamePanel.findAllMoves(currentPlayer);
-            gameHistory.clear();
+            Client.mainFrame.restart();
+//            gameHistory.clear();
             ThreadForLoading threadForLoading = new ThreadForLoading(fileData);
             threadForLoading.start();
         } catch (IOException e) {
