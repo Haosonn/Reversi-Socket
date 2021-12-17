@@ -27,6 +27,7 @@ public class GameController {
     private int blackDeep = 4;
     private int whiteDeep = 4;
     public boolean gameEnd = false;
+    public boolean canMouseClick = true;
 
     public boolean isBlackAIModeOn() {
         return blackAIModeOn;
@@ -173,18 +174,8 @@ public class GameController {
 //            statusPanel.setPlayerText(currentPlayer.name());
 //            gamePanel.findAllMoves(currentPlayer);
             gameHistory.clear();
-            for (int i = 1; i < fileData.size(); i++) {
-                int[] step = {Integer.parseInt(fileData.get(i).split(" ")[67]), Integer.parseInt(fileData.get(i).split(" ")[68])};
-                //todo add a thread to review
-                GameFrame.controller.getGamePanel().getChessGrids(step[0],step[1]).onMouseClicked();
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-//                gameRecord.getStep().add(arrayLine);
-            }
-            fileData.forEach(System.out::println);
+            ThreadForLoading threadForLoading = new ThreadForLoading(fileData);
+            threadForLoading.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,7 +200,7 @@ public class GameController {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter writer = new BufferedWriter(fileWriter);
             List<String> lines = new ArrayList<>();
-            for (GameRecord gameRecord:gameHistory) {
+            for (GameRecord gameRecord : gameHistory) {
                 lines.add(gameRecord.toString());
             }
             for (String line : lines) {
@@ -262,10 +253,10 @@ public class GameController {
         gameRecord.setCurrentPlayer(currentPlayer);
     }
 
-    public void addToHistory(int row,int col) {
+    public void addToHistory(int row, int col) {
         GameRecord thisChessBoard = new GameRecord();
         setThisStep(thisChessBoard);
-        thisChessBoard.setStep(new int[]{row,col});
+        thisChessBoard.setStep(new int[]{row, col});
         gameHistory.add(thisChessBoard);
     }
 
@@ -304,7 +295,7 @@ public class GameController {
     }
 
     public void sendInfo(int row, int col) {
-        String info = String.format("%s %s",String.valueOf(row), String.valueOf(col));
+        String info = String.format("%s %s", String.valueOf(row), String.valueOf(col));
         try {
             this.client.clientThread.dataOutputStream.writeUTF("<!MOVE!> " + info);
 
