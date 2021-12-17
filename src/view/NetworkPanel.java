@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -141,8 +142,20 @@ public class NetworkPanel extends JPanel {
         }
     }
 
-    public void disconnectEvent(){
-
+    public void disconnectEvent() {
+        try {
+            this.client.clientThread.dataOutputStream.writeUTF("<!LEAVE!>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.client.clientThread.flag = false;
+        this.client.clientThread = null;
+        this.ipTextField.setEnabled(true);
+        this.portTextField.setEnabled(true);
+        this.nameTextField.setEnabled(true);
+        this.connectButton.setEnabled(true);
+        this.disconnectButton.setEnabled(false);
+        this.surrenderButton.setEnabled(false);
     }
 
     public void challengeEvent(){

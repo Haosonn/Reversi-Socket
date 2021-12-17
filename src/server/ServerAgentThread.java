@@ -51,7 +51,24 @@ public class ServerAgentThread extends Thread{
         while (flag){
             try {
                 String msg = dataInputStream.readUTF().trim();
-                if(msg.startsWith("<!OPPOSITE_NAME!>")){
+                if(msg.startsWith("<!LEAVE!>")){
+                    Vector tem = father.onlineList;
+                    tem.remove(this);
+                    int cnt = tem.size();
+                    String newList = "<!NAME_LIST!>";
+                    newList += String.format(" %s",String.valueOf(tem.size()));
+                    for (int i = 0; i < tem.size(); i++) {
+                        ServerAgentThread tempSat = (ServerAgentThread) tem.get(i);
+                        newList += String.format(" %s",tempSat.name);
+                    }
+                    for (int i = 0; i < tem.size(); i++) {
+                        ServerAgentThread tempSat = (ServerAgentThread) tem.get(i);
+                        tempSat.dataOutputStream.writeUTF(newList);
+                    }
+                    this.father.serverFrame.refreshList();
+                    this.flag = false;
+                }
+                else if(msg.startsWith("<!OPPOSITE_NAME!>")){
                     System.out.println(msg);
                     this.oppositeName = msg.split(" ")[1];
                     continue;

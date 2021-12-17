@@ -8,11 +8,14 @@ import model.ChessPiece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Vector;
 
 public class GameFrame extends JFrame {
     public static GameController controller;
+    public String oppositeName = new String();
     private ChessBoardPanel chessBoardPanel;
     private StatusPanel statusPanel;
     private NetworkPanel networkPanel;
@@ -45,6 +48,34 @@ public class GameFrame extends JFrame {
         this.add(statusPanel);
         this.add(networkPanel);
 
+        this.addWindowListener(
+                new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        if (controller.client.clientThread == null){
+                            System.exit(0);
+                            return;
+                        }
+                        try {
+                            if (oppositeName != null)
+                            {
+                                try {
+                                    client.clientThread.dataOutputStream.writeUTF("<!SURRENDER!>");
+                                } catch (Exception ee) {
+                                    ee.printStackTrace();
+                                }
+                            }
+                            client.clientThread.dataOutputStream.writeUTF("<!LEAVE!>");
+                            client.clientThread.flag = false;//终止客户端代理线程
+                            client.clientThread = null;
+
+                        } catch (Exception ee) {
+                            ee.printStackTrace();
+                        }
+                        System.exit(0);
+                    }
+
+                }
+        );
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -89,6 +120,7 @@ public class GameFrame extends JFrame {
     public void getChallengeRequest(String msg) throws IOException {
         if (!msg.split(" ")[1].equals(controller.client.name)) return;
         controller.client.clientThread.dataOutputStream.writeUTF("<!OPPOSITE_NAME!> " + msg.split(" ")[2]);
+        oppositeName = msg.split(" ")[2];
         JOptionPane.showMessageDialog(this, String.format("%s challenges you!\nDo you agree his(her) request?", msg.split(" ")[2]), "Info",
                 JOptionPane.INFORMATION_MESSAGE);
         this.networkPanel.acceptChallengeButton.setEnabled(true);

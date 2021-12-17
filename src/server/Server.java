@@ -23,7 +23,4 @@ public class Server {
         Server server = new Server();
     }
 
-    public void refreshList() {
-        Vector v = new Vector<>();
-    }
 }
