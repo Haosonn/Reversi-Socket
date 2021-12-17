@@ -53,7 +53,7 @@ public class ThreadForAI extends Thread {
                 } catch (InterruptedException ie) {
                 }
                 loadChessBoard();
-                if (boradSpace() <= 10) {
+                if (boradSpace() <= 10 && this.deep != 1) {
                     this.deep = 10;
                     System.out.println((this.color == 1 ? "Black" : "White") + " Final Game Searching");
                     root = new Node(this.deep, -this.color, this.chessBoard);
