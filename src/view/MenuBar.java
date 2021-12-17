@@ -32,6 +32,7 @@ public class MenuBar extends JMenuBar {
             System.out.println("click load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             if (filePath.length() == 0) return;
+            mainframe.restart();
             GameFrame.controller.readFileData(filePath);
         });
         menu.add(item);
