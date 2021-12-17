@@ -49,7 +49,7 @@ public class ThreadForAI extends Thread {
 
             if (GameFrame.controller.getCurrentPlayer() == ((this.color == 1) ? ChessPiece.BLACK : ChessPiece.WHITE)) {
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(100);
                 } catch (InterruptedException ie) {
                 }
                 loadChessBoard();
@@ -78,13 +78,15 @@ public class ThreadForAI extends Thread {
                                 if (GameFrame.controller.getCurrentPlayer() == ((this.color == 1) ? ChessPiece.BLACK : ChessPiece.WHITE)) {
                                     GameFrame.controller.getGamePanel().getChessGrids
                                             (root.getNodes().get(i).getStep()[0], root.getNodes().get(i).getStep()[1]).onMouseClicked();
+
+                                    System.out.println(this.deep);
+
                                 }
                                 break;
                             }
                         }
                     }
                 } else {
-
                     root = new Node(this.deep, -this.color, this.chessBoard);
                     int value = root.getValue();
                     for (int i = 0; i < root.getNodes().size(); i++) {
@@ -92,6 +94,9 @@ public class ThreadForAI extends Thread {
                             if (GameFrame.controller.getCurrentPlayer() == ((this.color == 1) ? ChessPiece.BLACK : ChessPiece.WHITE)) {
                                 GameFrame.controller.getGamePanel().getChessGrids
                                         (root.getNodes().get(i).getStep()[0], root.getNodes().get(i).getStep()[1]).onMouseClicked();
+
+                                System.out.println(this.deep);
+
                             }
                             break;
                         }

@@ -179,8 +179,8 @@ public class MenuBar extends JMenuBar {
         JMenu aiLevel = new JMenu("AI level");
         JMenu blackLevel = new JMenu("black level");
         JMenu whiteLevel = new JMenu("white level");
-        JSlider blackSlider = new JSlider(1, 6);
-        JSlider whiteSlider = new JSlider(1, 6);
+        JSlider blackSlider = new JSlider(1, 4);
+        JSlider whiteSlider = new JSlider(1, 4);
         blackSlider.setMajorTickSpacing(1);
         whiteSlider.setMajorTickSpacing(1);
         blackSlider.setPaintTicks(true);
@@ -189,15 +189,15 @@ public class MenuBar extends JMenuBar {
         whiteSlider.setPaintLabels(true);
         blackSlider.addChangeListener(e -> {
             if (GameFrame.controller.getThreadForBlackAI() != null) {
-                GameFrame.controller.getThreadForBlackAI().setDeep(blackSlider.getValue());
+                GameFrame.controller.getThreadForBlackAI().setDeep((blackSlider.getValue() == 1) ? 1 : blackSlider.getValue() + 2);
             }
-            GameFrame.controller.setBlackDeep(blackSlider.getValue());
+            GameFrame.controller.setBlackDeep((blackSlider.getValue() == 1) ? 1 : blackSlider.getValue() + 2);
         });
         whiteSlider.addChangeListener(e -> {
-            if (GameFrame.controller.getThreadForBlackAI() != null) {
-                GameFrame.controller.getThreadForWhiteAI().setDeep(whiteSlider.getValue());
+            if (GameFrame.controller.getThreadForWhiteAI() != null) {
+                GameFrame.controller.getThreadForWhiteAI().setDeep((whiteSlider.getValue() == 1) ? 1 : whiteSlider.getValue() + 2);
             }
-            GameFrame.controller.setWhiteDeep(whiteSlider.getValue());
+            GameFrame.controller.setWhiteDeep((whiteSlider.getValue() == 1) ? 1 : whiteSlider.getValue() + 2);
         });
 
         blackLevel.add(blackSlider);
