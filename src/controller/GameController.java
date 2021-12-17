@@ -24,8 +24,8 @@ public class GameController {
     private ThreadForAI threadForWhiteAI;
     private boolean blackAIModeOn = false;
     private boolean whiteAIModeOn = false;
-    private int blackDeep = 3;
-    private int whiteDeep = 3;
+    private int blackDeep = 4;
+    private int whiteDeep = 4;
     public boolean gameEnd = false;
 
     public boolean isBlackAIModeOn() {

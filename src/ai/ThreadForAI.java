@@ -49,7 +49,7 @@ public class ThreadForAI extends Thread {
 
             if (GameFrame.controller.getCurrentPlayer() == ((this.color == 1) ? ChessPiece.BLACK : ChessPiece.WHITE)) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(300);
                 } catch (InterruptedException ie) {
                 }
                 loadChessBoard();
