@@ -19,7 +19,7 @@ public class ThreadForLoading extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 1; i < fileData.size(); i++) {
+        for (int i = 0; i < fileData.size(); i++) {
             try {
                 Thread.sleep(300);
             } catch (Exception e) {

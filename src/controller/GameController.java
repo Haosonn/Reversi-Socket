@@ -43,6 +43,10 @@ public class GameController {
 
     private ArrayList<GameRecord> gameHistory = new ArrayList();
 
+    public ArrayList<GameRecord> getGameHistory() {
+        return this.gameHistory;
+    }
+
     public boolean isCheatingBtnOn() {
         return cheatingBtnOn;
     }
@@ -170,11 +174,7 @@ public class GameController {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
-//            statusPanel.setScoreText(this.blackScore, this.whiteScore);
-//            statusPanel.setPlayerText(currentPlayer.name());
-//            gamePanel.findAllMoves(currentPlayer);
             Client.mainFrame.restart();
-//            gameHistory.clear();
             ThreadForLoading threadForLoading = new ThreadForLoading(fileData);
             threadForLoading.start();
         } catch (IOException e) {
@@ -187,12 +187,7 @@ public class GameController {
         data = data.substring(9);
         int row = Integer.parseInt(data.split(" ")[0]);
         int col = Integer.parseInt(data.split(" ")[1]);
-
         GameFrame.controller.getGamePanel().getChessGrids(row, col).onMouseClicked();
-//        statusPanel.setScoreText(this.blackScore, this.whiteScore);
-//        statusPanel.setPlayerText(currentPlayer.name());
-//        gamePanel.findAllMoves(currentPlayer);
-//        this.addToHistory();
     }
 
     public void writeDataToFile(String filePath) {
@@ -285,7 +280,7 @@ public class GameController {
 
     public void undo() {
         GameRecord gameRecord = new GameRecord();
-        if (gameHistory.size() == 1) return;
+        if (gameHistory.size() == 0) return;
         gameHistory.remove(gameHistory.size() - 1);
         String previousMove = gameHistory.get(gameHistory.size() - 1).toString();
         gameRecord.copyToGame(this.gamePanel, this, previousMove);
