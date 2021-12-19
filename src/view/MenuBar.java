@@ -19,7 +19,7 @@ public class MenuBar extends JMenuBar {
 
     private JMenu createGameMenu(GameFrame mainframe) {
         JMenu menu = new JMenu("Game");
-        JMenuItem item = new JMenuItem("new");
+        JMenuItem item = new JMenuItem("restart");
         item.addActionListener(e -> {
             System.out.println("click restart Btn");
             mainframe.restart();

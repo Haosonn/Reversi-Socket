@@ -175,23 +175,21 @@ public class GameController {
                 fileData.add(line);
             }
             int res = checkFile(fileData);
-            if(res == 1){
-                JOptionPane.showMessageDialog(gamePanel,"file error","error",JOptionPane.ERROR_MESSAGE);
+            if (res == 1) {
+                JOptionPane.showMessageDialog(gamePanel, "file error", "error", JOptionPane.ERROR_MESSAGE);
                 return;
-            }
-            else if(res == 2){
-                JOptionPane.showMessageDialog(gamePanel,"format error","error",JOptionPane.ERROR_MESSAGE);
+            } else if (res == 2) {
+                JOptionPane.showMessageDialog(gamePanel, "format error", "error", JOptionPane.ERROR_MESSAGE);
                 return;
-            }
-            else if (res == 3){
-                JOptionPane.showMessageDialog(gamePanel,"invalid step","error",JOptionPane.ERROR_MESSAGE);
+            } else if (res == 3) {
+                JOptionPane.showMessageDialog(gamePanel, "invalid step", "error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Client.mainFrame.restart();
             ThreadForLoading threadForLoading = new ThreadForLoading(fileData);
             threadForLoading.start();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(gamePanel,"file error","error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(gamePanel, "file error", "error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
@@ -295,6 +293,8 @@ public class GameController {
     public void undo() {
         GameRecord gameRecord = new GameRecord();
         if (gameHistory.size() == 0) return;
+        gamePanel.getChessGrids(gameHistory.get(gameHistory.size() - 1).getStep()[0], gameHistory.get(gameHistory.size() - 1).getStep()[1]).setNewPiece(false);
+        gamePanel.getChessGrids(gameHistory.get(gameHistory.size() - 2).getStep()[0], gameHistory.get(gameHistory.size() - 2).getStep()[1]).startNewPiece();
         gameHistory.remove(gameHistory.size() - 1);
         String previousMove = gameHistory.get(gameHistory.size() - 1).toString();
         gameRecord.copyToGame(this.gamePanel, this, previousMove);
@@ -337,43 +337,38 @@ public class GameController {
         return this.whiteScore;
     }
 
-    public boolean checkLoadStep(int player, int nx,int ny,int[][] cb){
-        int[][] dir ={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1}};
+    public boolean checkLoadStep(int player, int nx, int ny, int[][] cb) {
+        int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
         int[] dd = new int[15];
-        if(cb[nx][ny]!=0) return false;
-        dd[0]=0;
-        for (int i = 0; i <= 7; i++)
-        {
+        if (cb[nx][ny] != 0) return false;
+        dd[0] = 0;
+        for (int i = 0; i <= 7; i++) {
             int nxx = nx + dir[i][0];
             int nyy = ny + dir[i][1];
-            if(nxx<0||nxx>7||nyy<0||nyy>7) continue;
-            if(cb[nxx][nyy]==player) continue;
-            if(cb[nxx][nyy]==0) continue;
-            while(true)
-            {
-                nxx+=dir[i][0];
-                nyy+=dir[i][1];
-                if(nxx<0||nxx>7||nyy<0||nyy>7) break;
-                if(cb[nxx][nyy]==0) break;
-                if(cb[nxx][nyy]==player)
-                {
-                    dd[++dd[0]]=i;
+            if (nxx < 0 || nxx > 7 || nyy < 0 || nyy > 7) continue;
+            if (cb[nxx][nyy] == player) continue;
+            if (cb[nxx][nyy] == 0) continue;
+            while (true) {
+                nxx += dir[i][0];
+                nyy += dir[i][1];
+                if (nxx < 0 || nxx > 7 || nyy < 0 || nyy > 7) break;
+                if (cb[nxx][nyy] == 0) break;
+                if (cb[nxx][nyy] == player) {
+                    dd[++dd[0]] = i;
                     break;
                 }
             }
         }
-        if(dd[0]>0) {
-            int nowx,nowy;
+        if (dd[0] > 0) {
+            int nowx, nowy;
             nowx = nx;
             nowy = ny;
-            for (int i = 1; i <= dd[0]; i++)
-            {
-                cb[nowx][nowy]=player;
-                while(cb[nowx+dir[dd[i]][0]][nowy+dir[dd[i]][1]]!=player)
-                {
-                    nowx+=dir[dd[i]][0];
-                    nowy+=dir[dd[i]][1];
-                    cb[nowx][nowy]=player;
+            for (int i = 1; i <= dd[0]; i++) {
+                cb[nowx][nowy] = player;
+                while (cb[nowx + dir[dd[i]][0]][nowy + dir[dd[i]][1]] != player) {
+                    nowx += dir[dd[i]][0];
+                    nowy += dir[dd[i]][1];
+                    cb[nowx][nowy] = player;
                 }
             }
             return true;
@@ -382,50 +377,50 @@ public class GameController {
     }
 
 
-    public int checkFile(List<String> file){
-        int[][] tempCb = {{0,0,0,0,0,0,0,0},
-                            {0,0,0,0,0,0,0,0},
-                            {0,0,0,0,0,0,0,0},
-                            {0,0,0,1,-1,0,0,0},
-                            {0,0,0,-1,1,0,0,0},
-                            {0,0,0,0,0,0,0,0},
-                            {0,0,0,0,0,0,0,0},
-                            {0,0,0,0,0,0,0,0}};
+    public int checkFile(List<String> file) {
+        int[][] tempCb = {{0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, -1, 0, 0, 0},
+                {0, 0, 0, -1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0}};
         int pl = 1;
         for (int i = 0; i < file.size(); i++) {
             String[] stepData = file.get(i).split(" ");
-            if(stepData.length != 69) return 1;
-            for (int j = 0; j <= 64 ; j++) {
-                try{
+            if (stepData.length != 69) return 1;
+            for (int j = 0; j <= 64; j++) {
+                try {
                     int num = Integer.parseInt(stepData[j]);
-                    if(num != 0 && num != 1 && num != -1) return 2;
+                    if (num != 0 && num != 1 && num != -1) return 2;
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     return 1;
                 }
             }
 
-            for (int j = 65; j <= 66 ; j++) {
-                try{
+            for (int j = 65; j <= 66; j++) {
+                try {
                     int num = Integer.parseInt(stepData[j]);
-                    if(num < 0) return 2;
-                } catch (Exception e){
+                    if (num < 0) return 2;
+                } catch (Exception e) {
                     e.printStackTrace();
                     return 1;
                 }
             }
-            int[] step = {0,0};
-            for (int j = 67; j <= 68 ; j++) {
-                try{
+            int[] step = {0, 0};
+            for (int j = 67; j <= 68; j++) {
+                try {
                     step[j - 67] = Integer.parseInt(stepData[j]);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     return 1;
                 }
             }
-            boolean checkRes = checkLoadStep(pl,step[0],step[1],tempCb);
-            if(!checkRes) return 3;
+            boolean checkRes = checkLoadStep(pl, step[0], step[1], tempCb);
+            if (!checkRes) return 3;
             pl *= -1;
         }
         return 0;

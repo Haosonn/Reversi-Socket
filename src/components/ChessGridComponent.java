@@ -29,7 +29,10 @@ public class ChessGridComponent extends BasicComponent {
         this.reversingColor = reversingColor;
     }
 
+
     private boolean newPiece;
+
+
     private Image black, white;
 
     private int newPieceAlpha = 100;
@@ -79,7 +82,11 @@ public class ChessGridComponent extends BasicComponent {
         //todo: complete mouse click method
         //if (!GameFrame.controller.client.canMove && GameFrame.controller.client.onlineMode) return;
         if (GameFrame.controller.canClick(row, col) || GameFrame.controller.isCheatingBtnOn()) {
-
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    GameFrame.controller.getGamePanel().getChessGrids(i, j).setNewPiece(false);
+                }
+            }
             this.reminder = false;
             GameFrame.controller.setOnePiece(row, col);
             GameFrame.controller.getGamePanel().getChessGrids(GameFrame.controller.getGamePanel().getNewPiece()[0], GameFrame.controller.getGamePanel().getNewPiece()[1]).setNewPiece(false);
@@ -169,5 +176,11 @@ public class ChessGridComponent extends BasicComponent {
 
     public boolean getReminder() {
         return this.reminder;
+    }
+
+    public void startNewPiece() {
+        newPiece = true;
+        threadForNewPiece = new ThreadForNewPiece(this);
+        threadForNewPiece.start();
     }
 }
