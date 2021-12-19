@@ -51,13 +51,12 @@ public class GameFrame extends JFrame {
         this.addWindowListener(
                 new WindowAdapter() {
                     public void windowClosing(WindowEvent e) {
-                        if (controller.client.clientThread == null){
+                        if (controller.client.clientThread == null) {
                             System.exit(0);
                             return;
                         }
                         try {
-                            if (oppositeName != null)
-                            {
+                            if (oppositeName != null) {
                                 try {
                                     client.clientThread.dataOutputStream.writeUTF("<!SURRENDER!>");
                                 } catch (Exception ee) {
@@ -93,11 +92,13 @@ public class GameFrame extends JFrame {
         controller.resetCurrentPlayer();
         controller.gameEnd = false;
         if (GameFrame.controller.isBlackAIModeOn()) {
+            GameFrame.controller.getThreadForBlackAI().exit = true;
             GameFrame.controller.setThreadForBlackAI(new ThreadForAI(1, controller.getBlackDeep()));
             GameFrame.controller.getThreadForBlackAI().start();
             System.out.println("Black AI On");
         }
         if (GameFrame.controller.isWhiteAIModeOn()) {
+            GameFrame.controller.getThreadForWhiteAI().exit = true;
             GameFrame.controller.setThreadForWhiteAI(new ThreadForAI(-1, controller.getWhiteDeep()));
             GameFrame.controller.getThreadForWhiteAI().start();
             System.out.println("White AI On");
@@ -160,9 +161,10 @@ public class GameFrame extends JFrame {
 
     }
 
-    public void setChallengeBtnOn(){
+    public void setChallengeBtnOn() {
         this.networkPanel.challengeButton.setEnabled(true);
     }
+
     public void setSurrenderBtnOn() {
         this.networkPanel.surrenderButton.setEnabled(true);
     }
