@@ -77,7 +77,7 @@ public class ServerAgentThread extends Thread{
                 for (int i = 0; i < v.size(); i++) {
                     ServerAgentThread tempSat = (ServerAgentThread) v.get(i);
                     if (tempSat.name.equals(this.name)) continue;
-                    if (msg.startsWith("<!MOVE!>") || msg.startsWith("<!UNDO_REQUEST!>") || msg.startsWith("<!AGREEUNDO!>") || msg.startsWith("<!DISAGREEUNDO!>")) {
+                    if (msg.startsWith("<!ACCEPT_CHALLENGE!>")||msg.startsWith("<!MOVE!>") || msg.startsWith("<!UNDO_REQUEST!>") || msg.startsWith("<!AGREEUNDO!>") || msg.startsWith("<!DISAGREEUNDO!>")) {
                         if(tempSat.name.equals(oppositeName)){
                             tempSat.dataOutputStream.writeUTF(msg);
                             break;
