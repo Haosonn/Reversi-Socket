@@ -438,7 +438,12 @@ public class GameController {
     }
 
     public void reverse(int color, int x, int y, int[][] chessboard) {
-        int[][] nextchessboard = chessboard;
+        int[][] nextchessboard = new int[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                nextchessboard[i][j] = chessboard[i][j];
+            }
+        }
         int result;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -483,5 +488,11 @@ public class GameController {
                 }
             }
         }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                chessboard[i][j] = nextchessboard[i][j];
+            }
+        }
+        chessboard[x][y] = color;
     }
 }
