@@ -25,8 +25,8 @@ public class NetworkPanel extends JPanel {
     JButton connectButton = new JButton("Connect");
     JButton disconnectButton = new JButton("Disconnect");
     JButton challengeButton = new JButton("Challenge");
-    JButton acceptChallengeButton = new JButton("Accept Challenge");
-    JButton refuseChallengeButton = new JButton("Refuse Challenge");
+    JButton acceptChallengeButton = new JButton("<html>Accept<br>Challenge</html>");
+    JButton refuseChallengeButton = new JButton("<html>Refuse<br>Challenge</html>");
     JButton surrenderButton = new JButton("Surrender");
     JComboBox players = new JComboBox();
 
@@ -37,27 +37,27 @@ public class NetworkPanel extends JPanel {
 
 
         this.portLabel.setBounds(0, (int) (this.getHeight() * 0.02), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.portLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.portLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.portLabel);
 
         this.portTextField.setBounds((int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.02), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.portTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.portTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.portTextField);
 
         this.ipLabel.setBounds(0, (int) (this.getHeight() * 0.1), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.ipLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.ipLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.ipLabel);
 
         this.ipTextField.setBounds((int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.1), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.ipTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.ipTextField);
 
         this.nameLabel.setBounds(0, (int) (this.getHeight() * 0.18), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.nameLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.nameLabel.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.nameLabel);
 
         this.nameTextField.setBounds((int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.18), (int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.05));
-        this.nameTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
+        this.nameTextField.setFont(new java.awt.Font(Font.DIALOG, 1, 20));
         this.add(this.nameTextField);
 
         this.connectButton.setBounds((int) (this.getWidth() * 0.01), (int) (this.getHeight() * 0.26), (int) (this.getWidth() * 0.32), (int) (this.getHeight() * 0.05));
@@ -76,7 +76,7 @@ public class NetworkPanel extends JPanel {
         this.add(this.players);
 
         this.surrenderButton.setBounds((int) (this.getWidth() * 0.4), (int) (this.getHeight() * 0.34), (int) (this.getWidth() * 0.32), (int) (this.getHeight() * 0.05));
-        this.surrenderButton.setFont(new java.awt.Font(Font.DIALOG, 1, 15));
+        this.surrenderButton.setFont(new java.awt.Font(Font.DIALOG, 1, 10));
         this.surrenderButton.addActionListener(new Listener());
         this.add(this.surrenderButton);
         this.surrenderButton.setEnabled(false);
@@ -151,6 +151,7 @@ public class NetworkPanel extends JPanel {
 
     public void disconnectEvent() {
         try {
+            this.client.clientThread.dataOutputStream.writeUTF("<!SURRENDER!>");
             this.client.clientThread.dataOutputStream.writeUTF("<!LEAVE!>");
         } catch (IOException e) {
             e.printStackTrace();

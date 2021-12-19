@@ -42,8 +42,8 @@ public class GameFrame extends JFrame {
         controller = new GameController(chessBoardPanel, statusPanel, client);
         controller.setGamePanel(chessBoardPanel);
 
-        networkPanel = new NetworkPanel((int) (this.getWidth() * 0.4), (int) (this.getHeight()), client);
-        networkPanel.setLocation((15 * this.getWidth()) / 20, (this.getHeight()) / 10);
+        networkPanel = new NetworkPanel((int) (this.getWidth() * 0.3), (int) (this.getHeight()), client);
+        networkPanel.setLocation((15 * this.getWidth()) / 22, (this.getHeight()) / 10);
         this.add(chessBoardPanel);
         this.add(statusPanel);
         this.add(networkPanel);

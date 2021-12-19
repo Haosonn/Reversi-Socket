@@ -337,45 +337,6 @@ public class GameController {
         return this.whiteScore;
     }
 
-    public boolean checkLoadStep(int player, int nx, int ny, int[][] cb) {
-        int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
-        int[] dd = new int[15];
-        if (cb[nx][ny] != 0) return false;
-        dd[0] = 0;
-        for (int i = 0; i <= 7; i++) {
-            int nxx = nx + dir[i][0];
-            int nyy = ny + dir[i][1];
-            if (nxx < 0 || nxx > 7 || nyy < 0 || nyy > 7) continue;
-            if (cb[nxx][nyy] == player) continue;
-            if (cb[nxx][nyy] == 0) continue;
-            while (true) {
-                nxx += dir[i][0];
-                nyy += dir[i][1];
-                if (nxx < 0 || nxx > 7 || nyy < 0 || nyy > 7) break;
-                if (cb[nxx][nyy] == 0) break;
-                if (cb[nxx][nyy] == player) {
-                    dd[++dd[0]] = i;
-                    break;
-                }
-            }
-        }
-        if (dd[0] > 0) {
-            int nowx, nowy;
-            nowx = nx;
-            nowy = ny;
-            for (int i = 1; i <= dd[0]; i++) {
-                cb[nowx][nowy] = player;
-                while (cb[nowx + dir[dd[i]][0]][nowy + dir[dd[i]][1]] != player) {
-                    nowx += dir[dd[i]][0];
-                    nowy += dir[dd[i]][1];
-                    cb[nowx][nowy] = player;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
 
     public int checkFile(List<String> file) {
         int[][] tempCb = {{0, 0, 0, 0, 0, 0, 0, 0},
@@ -421,6 +382,7 @@ public class GameController {
             }
             boolean checkRes = checkLoadStep(pl, step[0], step[1], tempCb);
             if (!checkRes) return 3;
+            else reverse(pl, step[0], step[1], tempCb);
             pl *= -1;
         }
         return 0;
@@ -430,5 +392,96 @@ public class GameController {
     // 2 = format error
     // 3 = invalid step
 
+    public boolean checkLoadStep(int color, int x, int y, int[][] chessboard) {
+        boolean result;
+        if (chessboard[x][y] != 0) {
+            return false;
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                result = true;
+                if (chessboard[i][j] == color && (Math.abs(x - i) > 1 || Math.abs(y - j) > 1)) {
+                    if (Math.abs(i - x) == Math.abs(j - y)) {
+                        for (int k = 1; k < Math.abs(i - x); k++) {
+                            if (chessboard[x + Math.abs(i - x) / (i - x) * k][y + Math.abs(j - y) / (j - y) * k] != -color) {
+                                result = false;
+                            }
+                        }
+                        if (result == true) {
+                            return true;
+                        }
+                    }
+                    if (i == x) {
+                        for (int k = 1; k < Math.abs(j - y); k++) {
+                            if (chessboard[x][y + Math.abs(j - y) / (j - y) * k] != -color) {
+                                result = false;
+                            }
+                        }
+                        if (result == true) {
+                            return true;
+                        }
+                    }
+                    if (j == y) {
+                        for (int k = 1; k < Math.abs(i - x); k++) {
+                            if (chessboard[x + Math.abs(i - x) / (i - x) * k][y] != -color) {
+                                result = false;
+                            }
+                        }
+                        if (result == true) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
+    public void reverse(int color, int x, int y, int[][] chessboard) {
+        int[][] nextchessboard = chessboard;
+        int result;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                result = 1;
+                if (chessboard[i][j] == color && (Math.abs(x - i) > 1 || Math.abs(y - j) > 1)) {
+                    if (Math.abs(i - x) == Math.abs(j - y)) {
+                        for (int k = 1; k < Math.abs(i - x); k++) {
+                            if (chessboard[x + Math.abs(i - x) / (i - x) * k][y + Math.abs(j - y) / (j - y) * k] != -color) {
+                                result = 0;
+                            }
+                        }
+                        if (result == 1) {
+                            for (int k = 1; k < Math.abs(i - x); k++) {
+                                nextchessboard[x + Math.abs(i - x) / (i - x) * k][y + Math.abs(j - y) / (j - y) * k] = color;
+                            }
+                        }
+                    }
+                    if (i == x) {
+                        for (int k = 1; k < Math.abs(j - y); k++) {
+                            if (chessboard[x][y + Math.abs(j - y) / (j - y) * k] != -color) {
+                                result = 0;
+                            }
+                        }
+                        if (result == 1) {
+                            for (int k = 1; k < Math.abs(j - y); k++) {
+                                nextchessboard[x][y + Math.abs(j - y) / (j - y) * k] = color;
+                            }
+                        }
+                    }
+                    if (j == y) {
+                        for (int k = 1; k < Math.abs(i - x); k++) {
+                            if (chessboard[x + Math.abs(i - x) / (i - x) * k][y] != -color) {
+                                result = 0;
+                            }
+                        }
+                        if (result == 1) {
+                            for (int k = 1; k < Math.abs(i - x); k++) {
+                                nextchessboard[x + Math.abs(i - x) / (i - x) * k][y] = color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

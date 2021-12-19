@@ -38,6 +38,7 @@ public class ClientThread extends Thread {
                     Client.mainFrame.repeatName();
                 } else if (msg.startsWith("<!ACCEPT_CHALLENGE!>")) {
                     this.initialateColor(1);
+                    JOptionPane.showMessageDialog(Client.mainFrame,Client.mainFrame.oppositeName+" has accepted your challenge","info",JOptionPane.INFORMATION_MESSAGE);
                     Client.mainFrame.setduishou();
                     Client.mainFrame.setSurrenderBtnOn();
                 } else if (msg.startsWith("<!REFUSE_CHALLENGE!>")) {
