@@ -42,7 +42,7 @@ public class GameFrame extends JFrame {
         controller = new GameController(chessBoardPanel, statusPanel, client);
         controller.setGamePanel(chessBoardPanel);
 
-        networkPanel = new NetworkPanel((int) (this.getWidth() * 0.2), (int) (this.getHeight()), client);
+        networkPanel = new NetworkPanel((int) (this.getWidth() * 0.4), (int) (this.getHeight()), client);
         networkPanel.setLocation((15 * this.getWidth()) / 20, (this.getHeight()) / 10);
         this.add(chessBoardPanel);
         this.add(statusPanel);
@@ -165,5 +165,12 @@ public class GameFrame extends JFrame {
     }
     public void setSurrenderBtnOn() {
         this.networkPanel.surrenderButton.setEnabled(true);
+    }
+
+    public void setduishou(){
+        this.networkPanel.duishouLabel.setText(String.format("Your opposite is %s",oppositeName));
+    }
+    public void setziji(int color){
+        this.networkPanel.playerLabel.setText("You are "+(color==1?"Black":"White"));
     }
 }
